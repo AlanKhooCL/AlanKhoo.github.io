@@ -114,7 +114,7 @@ nav.sticky .menu-btn{
   background: url("image/background.png") no-repeat;
   background-size: cover;
   background-position: center;
-  background-attachment: local;
+  background-attachment: fixed;
   font-family: 'Ubuntu', sans-serif;
 }
 .home .home-content{
@@ -236,7 +236,7 @@ section .title span::after{
   width: 45%;
 }
 .about .left img{
-  height: 500px;
+  height: 400px;
   width: 400px;
   object-fit: cover;
   border-radius: 12px;
