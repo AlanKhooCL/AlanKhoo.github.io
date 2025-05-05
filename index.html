@@ -10,11 +10,247 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        .container {
+            max-width: 1200px; /* Increased max-width for larger screens */
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        .section {
+            padding-top: 4rem;  /* Increased padding for better spacing */
+            padding-bottom: 4rem;
+        }
+        .section-title {
+            font-size: 2.25rem; /* Larger font size */
+            font-weight: 600;
+            color: #1e293b; /* Slightly darker heading color */
+            text-align: center;
+            margin-bottom: 2.5rem; /* Increased margin */
+        }
+        /* Adjusted grid spacing and widths for Skills section */
+        #skills .grid {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 2rem;
+        }
+        @media (min-width: 768px) {
+            #skills .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        @media (min-width: 1024px) {
+            #skills .grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        #skills .bg-gray-100 {
+            background-color: #f3f4f6;
+            border-radius: 0.75rem; /* Rounded corners */
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Slightly stronger shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        }
+        #skills .bg-gray-100:hover {
+            transform: translateY(-0.5rem); /* Slight lift on hover */
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 3px 6px -1px rgba(0, 0, 0, 0.08); /* Increased shadow on hover */
+        }
+        #skills .text-xl {
+            font-size: 1.5rem; /* Increased font size */
+            font-weight: 600;
+            color: #1d4ed8; /* Stronger blue color */
+            margin-bottom: 0.5rem;
+        }
+        #skills .list-disc {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-left: 0.5rem;
+            color: #4b5563; /* Darker list text */
+            line-height: 1.75; /* Increased line height for better readability */
+        }
+        /* Experience Section Styles */
+        #experience .space-y-8 > div {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #experience .space-y-8 > div:hover {
+            transform: translateY(-0.5rem);
+             box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 3px 6px -1px rgba(0, 0, 0, 0.08);
+        }
+
+        #experience .text-xl {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1d4ed8;
+            margin-bottom: 0.5rem;
+        }
+        #experience .text-lg {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+        #experience .text-gray-600 {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        #experience .list-disc {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-left: 0.5rem;
+            color: #4b5563;
+            line-height: 1.75;
+        }
+
+        /* Education Section Styles */
+        #education .bg-gray-100 {
+            background-color: #f3f4f6;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        #education .text-xl {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1d4ed8;
+            margin-bottom: 0.5rem;
+        }
+        #education .text-lg {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+        #education .text-gray-600 {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        #education .mt-8 {
+            margin-top: 2rem;
+        }
+
+        #education .grid {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        @media (min-width: 768px) {
+             #education .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        @media (min-width: 1024px) {
+            #education .grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        #education .grid > div{
+            background-color: #f3f4f6;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        #education .grid .text-lg{
+            font-size: 1rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Contact Section Styles */
+        #contact .text-lg {
+            font-size: 1.25rem; /* Increased font size */
+            color: #4b5563; /* Slightly darker text */
+            line-height: 1.75; /* Increased line height */
+            text-align: center;
+        }
+        #contact .text-blue-600 {
+            color: #2563eb; /* Stronger blue for link */
+        }
+        #contact .text-blue-600:hover {
+            color: #1e40af; /* Darker blue on hover */
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #374151; /* Darker footer background */
+            color: #f9fafb; /* Lighter footer text */
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            text-align: center;
+            border-top: 1px solid #4a5568; /* Add a border */
+        }
+        footer p{
+            font-size: 1rem;
+        }
+
+        /* About Section Styles */
+        #about {
+            background-color: #f3f4f6; /* Lighter background for about section */
+        }
+        #about .text-lg {
+            font-size: 1.125rem; /* Increased font size */
+            color: #4b5563; /* Slightly darker text */
+            line-height: 1.75; /* Increased line height */
+        }
+        #about .rounded-full {
+            border-radius: 9999px; /* Make sure it's a perfect circle */
+        }
+        #about .shadow-lg {
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        #about .flex-col > div{
+            margin-top: 2rem;
+        }
+
+        /* Daily SQL Problem Section Styles */
+        #daily-sql{
+            background-color: white;
+        }
+        #daily-sql .bg-gray-100{
+            background-color: #f3f4f6;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        #daily-sql .text-2xl{
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        #daily-sql .text-xl{
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1d4ed8;
+            margin-bottom: 0.5rem;
+        }
+        #daily-sql .text-gray-700{
+            color: #4b5563;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+        #daily-sql .bg-gray-200{
+            background-color: #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: #374151;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
     <header class="bg-blue-600 text-white py-4 md:py-6">
-        <div class="container mx-auto px-4">
+        <div class="container">
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <h1 class="text-2xl md:text-3xl font-semibold">Alan Khoo</h1>
                 <nav class="mt-4 md:mt-0">
@@ -31,178 +267,180 @@
         </div>
     </header>
 
-    <section id="about" class="bg-gray-100 py-10 md:py-12">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">About Me</h2>
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="md:w-1/3">
-                    <img src="image/about.jpg" alt="Alan Khoo Profile Photo" class="rounded-full shadow-lg w-64 h-64 mx-auto">
-                </div>
-                <div class="md:w-2/3 text-lg text-gray-700 leading-relaxed">
-                    <p>
-                        Data analyst and automation expert with 4+ years in private banking (PB), specializing in Alteryx, Unqork, Python, SQL, and Tableau. Proven ability to transform raw data into actionable
-                        insights, streamline operations, and build scalable automation solutions.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="daily-sql" class="bg-white py-8 md:py-10">
-        <div class="container mx-auto px-4">
-            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Today's SQL Challenge</h2>
-            <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-                <h3 id="daily-problem-title" class="text-xl font-semibold text-blue-600 mb-2"></h3>
-                <p id="daily-problem-description" class="text-gray-700 leading-relaxed mb-4"></p>
-                <pre id="daily-problem-schema" class="bg-gray-200 rounded-md p-4 text-sm text-gray-800 whitespace-pre-wrap"></pre>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills" class="bg-white py-10 md:py-12">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">Skills</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Data Analysis</h3>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>Python (Pandas, NumPy, Streamlit)</li>
-                        <li>SQL (complex joins)</li>
-                        <li>Alteryx (ETL pipelines)</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Automation</h3>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>UiPath (RPA bots)</li>
-                        <li>Unqork (no-code apps)</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Visualization</h3>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>Tableau (executive dashboards)</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Tools</h3>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>Confluence (documentation)</li>
-                        <li>JIRA (project tracking)</li>
-                    </ul>
-                </div>
-                <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Domain Knowledge</h3>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>PB operations</li>
-                    </ul>
+    <main>
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="md:w-1/3">
+                        <img src="image/about.jpg" alt="Alan Khoo Profile Photo" class="rounded-full shadow-lg w-64 h-64 mx-auto">
+                    </div>
+                    <div class="md:w-2/3 text-lg">
+                        <p>
+                            Data analyst and automation expert with 4+ years in private banking (PB), specializing in Alteryx, Unqork, Python, SQL, and Tableau. Proven ability to transform raw data into actionable
+                            insights, streamline operations, and build scalable automation solutions.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="experience" class="bg-gray-100 py-10 md:py-12">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">Experience</h2>
-            <div class="space-y-8">
-                <div class="bg-white rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">J.P. Morgan Private Bank</h3>
-                    <h4 class="text-lg font-medium text-gray-700 mb-1">Operations Automation Senior Associate</h4>
-                    <p class="text-gray-600 mb-2">2023 - Present</p>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>Automated data extraction for Asia Investment Operations, reducing latency from 5 business days to real-time, enabling faster decision-making on $2.1B client AUM data.</li>
-                        <li>Designed a centralised Investment Operations dashboard to provide senior management with actionable insights leading to a reduction brokerage tech disruptions by 45%
+        <section id="daily-sql" class="section">
+            <div class="container">
+                <h2 class="text-2xl">Today's SQL Challenge</h2>
+                <div class="bg-gray-100">
+                    <h3 id="daily-problem-title" class="text-xl"></h3>
+                    <p id="daily-problem-description" class="text-gray-700"></p>
+                    <pre id="daily-problem-schema" class="bg-gray-200"></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <div class="container">
+                <h2 class="section-title">Skills</h2>
+                <div class="grid">
+                    <div class="bg-gray-100">
+                        <h3 class="text-xl">Data Analysis</h3>
+                        <ul class="list-disc">
+                            <li>Python (Pandas, NumPy, Streamlit)</li>
+                            <li>SQL (complex joins)</li>
+                            <li>Alteryx (ETL pipelines)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-100">
+                        <h3 class="text-xl">Automation</h3>
+                        <ul class="list-disc">
+                            <li>UiPath (RPA bots)</li>
+                            <li>Unqork (no-code apps)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-100">
+                        <h3 class="text-xl">Visualization</h3>
+                        <ul class="list-disc">
+                            <li>Tableau (executive dashboards)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-100">
+                        <h3 class="text-xl">Tools</h3>
+                        <ul class="list-disc">
+                            <li>Confluence (documentation)</li>
+                            <li>JIRA (project tracking)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-100">
+                        <h3 class="text-xl">Domain Knowledge</h3>
+                        <ul class="list-disc">
+                            <li>PB operations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section">
+            <div class="container">
+                <h2 class="section-title">Experience</h2>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-xl">J.P. Morgan Private Bank</h3>
+                        <h4 class="text-lg">Operations Automation Senior Associate</h4>
+                        <p class="text-gray-600">2023 - Present</p>
+                        <ul class="list-disc">
+                            <li>Automated data extraction for Asia Investment Operations, reducing latency from 5 business days to real-time, enabling faster decision-making on $2.1B client AUM data.</li>
+                            <li>Designed a centralised Investment Operations dashboard to provide senior management with actionable insights leading to a reduction brokerage tech disruptions by 45%
                             and accelerated hedge fund processing by 50%.</li>
-                        <li>Conducted process mining on account closures in response to regulatory requirements, identifying and offboarding 1,000+ clients (on hold &gt;90 days);
+                            <li>Conducted process mining on account closures in response to regulatory requirements, identifying and offboarding 1,000+ clients (on hold &gt;90 days);
                             built monitoring dashboard for ongoing oversight of account closure processes.</li>
-                        <li>Lead a cross-functional team (since 2024) for Asia Operations' Quarterly Business Review (QBR), highlighting impacts and
+                             <li>Lead a cross-functional team (since 2024) for Asia Operations' Quarterly Business Review (QBR), highlighting impacts and
                             key challenges including hybrid (digital/manual) processes.</li>
-                    </ul>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">J.P.Morgan Private Bank</h3>
-                    <h4 class="text-lg font-medium text-gray-700 mb-1">Process Improvement Associate</h4>
-                    <p class="text-gray-600 mb-2">2020 - 2023</p>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>Designed the Lending Value Tool, automating hundreds of weekly advisor requests and freeing up one full-time headcount.</li>
-                        <li>Automated the Margin Call report, improving client experience, and generating capacity equivalent to one full-time employee.</li>
-                    </ul>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Ernst & Young LLP</h3>
-                    <h4 class="text-lg font-medium text-gray-700 mb-1">Assurance Services Audit Assistant</h4>
-                    <p class="text-gray-600 mb-2">2020</p>
-                    <ul class="list-disc list-inside text-gray-700">
-                         <li>Spearheaded end-to-end audit fieldwork for five healthcare institutions under Singapore's Ministry of Health (MOH).</li>
-                    </ul>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-md">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">Foo Kon Tan LLP</h3>
-                    <h4 class="text-lg font-medium text-gray-700 mb-1">Senior Assurance Associate</h4>
-                    <p class="text-gray-600 mb-2">2017 - 2020</p>
-                    <ul class="list-disc list-inside text-gray-700">
-                        <li>Led the audit of a Singapore-listed company with 19 subsidiaries, ensuring the timely publication of audited financial statements for 2018 and 2019.</li>
-                        <li>Developed Excel macros to automate GL reconciliations and trend analysis, cutting manual fieldwork by 20% and ensuring
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl">J.P.Morgan Private Bank</h3>
+                        <h4 class="text-lg">Process Improvement Associate</h4>
+                        <p class="text-gray-600">2020 - 2023</p>
+                        <ul class="list-disc">
+                            <li>Designed the Lending Value Tool, automating hundreds of weekly advisor requests and freeing up one full-time headcount.</li>
+                            <li>Automated the Margin Call report, improving client experience, and generating capacity equivalent to one full-time employee.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl">Ernst & Young LLP</h3>
+                        <h4 class="text-lg">Assurance Services Audit Assistant</h4>
+                        <p class="text-gray-600">2020</p>
+                        <ul class="list-disc">
+                            <li>Spearheaded end-to-end audit fieldwork for five healthcare institutions under Singapore's Ministry of Health (MOH).</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl">Foo Kon Tan LLP</h3>
+                        <h4 class="text-lg">Senior Assurance Associate</h4>
+                        <p class="text-gray-600">2017 - 2020</p>
+                        <ul class="list-disc">
+                            <li>Led the audit of a Singapore-listed company with 19 subsidiaries, ensuring the timely publication of audited financial statements for 2018 and 2019.</li>
+                            <li>Developed Excel macros to automate GL reconciliations and trend analysis, cutting manual fieldwork by 20% and ensuring
                             audit deadlines were met despite team attrition.</li>
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="education" class="bg-white py-10 md:py-12">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">Education</h2>
-            <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-                <h3 class="text-xl font-semibold text-blue-600 mb-2">Nanyang Technological University</h3>
-                <h4 class="text-lg font-medium text-gray-700 mb-1">Bachelor in Accountancy (Hons.)</h4>
-                <p class="text-gray-600 mb-2">2014 - 2017</p>
+        <section id="education" class="section">
+            <div class="container">
+                <h2 class="section-title">Education</h2>
+                <div class="bg-gray-100">
+                    <h3 class="text-xl">Nanyang Technological University</h3>
+                    <h4 class="text-lg">Bachelor in Accountancy (Hons.)</h4>
+                    <p class="text-gray-600">2014 - 2017</p>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-xl text-center">Certifications</h3>
+                    <div class="grid">
+                        <div>
+                            <h4 class="text-lg">Google Advanced Data Analytics</h4>
+                            <p class="text-gray-600 text-sm">Coursera | 2023</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg">Investment Foundations</h4>
+                            <p class="text-gray-600 text-sm">CFA Institute | 2023</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg">Certified Configurator</h4>
+                            <p class="text-gray-600 text-sm">Unqork | 2023</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg">Uipath Certified RPA Associate</h4>
+                            <p class="text-gray-600 text-sm">UiPath | 2022</p>
+                        </div>
+                         <div>
+                            <h4 class="text-lg">Alteryx Designer Advanced</h4>
+                            <p class="text-gray-600 text-sm">Alteryx | 2021</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg">Professional Diploma in Data Analytics</h4>
+                            <p class="text-gray-600 text-sm">NUS-ISS | 2021</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-             <div class="mt-8">
-                 <h3 class="text-xl font-semibold text-blue-600 mb-4 text-center">Certifications</h3>
-                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                         <h4 class="text-lg font-medium text-gray-700 mb-1">Google Advanced Data Analytics</h4>
-                         <p class="text-gray-600 text-sm">Coursera | 2023</p>
-                     </div>
-                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                         <h4 class="text-lg font-medium text-gray-700 mb-1">Investment Foundations</h4>
-                         <p class="text-gray-600 text-sm">CFA Institute | 2023</p>
-                     </div>
-                      <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                         <h4 class="text-lg font-medium text-gray-700 mb-1">Certified Configurator</h4>
-                         <p class="text-gray-600 text-sm">Unqork | 2023</p>
-                     </div>
-                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                         <h4 class="text-lg font-medium text-gray-700 mb-1">Uipath Certified RPA Associate</h4>
-                         <p class="text-gray-600 text-sm">UiPath | 2022</p>
-                     </div>
-                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                         <h4 class="text-lg font-medium text-gray-700 mb-1">Alteryx Designer Advanced</h4>
-                         <p class="text-gray-600 text-sm">Alteryx | 2021</p>
-                     </div>
-                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                         <h4 class="text-lg font-medium text-gray-700 mb-1">Professional Diploma in Data Analytics</h4>
-                         <p class="text-gray-600 text-sm">NUS-ISS | 2021</p>
-                     </div>
-                 </div>
-             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact" class="bg-gray-100 py-10 md:py-12">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-semibold text-gray-800 text-center mb-6">Contact Me</h2>
-            <div class="text-lg text-gray-700 text-center">
-                <p>Email: alan.khoo.chi.loon@gmail.com</p>
-                <p>Phone: +65 9642 1386</p>
-                <p>Website: <a href="www.alankcl.com" class="text-blue-600 hover:underline">www.alankcl.com</a></p>
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title">Contact Me</h2>
+                <div class="text-lg">
+                    <p>Email: alan.khoo.chi.loon@gmail.com</p>
+                    <p>Phone: +65 9642 1386</p>
+                    <p>Website: <a href="www.alankcl.com" class="text-blue-600 hover:underline">www.alankcl.com</a></p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer class="bg-gray-800 text-white py-4">
-        <div class="container mx-auto px-4 text-center">
+        <div class="container">
             <p>&copy; 2024 Alan Khoo. All rights reserved.</p>
         </div>
     </footer>
@@ -220,34 +458,87 @@
 
         const dailySqlProblems = [
             {
-              "problem_id": 1,
-              "title": "Selecting Customer Names",
-              "description": "Write a SQL query to retrieve the first and last names of all customers from the 'Customers' table.",
-              "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50));",
-              "correct_query": "SELECT FirstName, LastName FROM Customers;"
+            "problem_id": 1,
+            "title": "Selecting Customer Names",
+            "description": "Write a SQL query to retrieve the first and last names of all customers from the 'Customers' table.",
+            "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50));",
+            "correct_query": "SELECT FirstName, LastName FROM Customers;"
             },
             {
-              "problem_id": 2,
-              "title": "Counting Orders",
-              "description": "Write a SQL query to find the total number of orders in the 'Orders' table.",
-              "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
-              "correct_query": "SELECT COUNT(*) AS TotalOrders FROM Orders;"
+            "problem_id": 2,
+            "title": "Counting Orders",
+            "description": "Write a SQL query to find the total number of orders in the 'Orders' table.",
+            "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
+            "correct_query": "SELECT COUNT(*) AS TotalOrders FROM Orders;"
             },
             {
-              "problem_id": 3,
-              "title": "Finding Orders from a Specific Customer",
-              "description": "Write a SQL query to retrieve all orders placed by the customer with CustomerID equal to 101 from the 'Orders' table.",
-              "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
-              "correct_query": "SELECT * FROM Orders WHERE CustomerID = 101;"
+            "problem_id": 3,
+            "title": "Finding Orders from a Specific Customer",
+            "description": "Write a SQL query to retrieve all orders placed by the customer with CustomerID equal to 101 from the 'Orders' table.",
+            "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
+            "correct_query": "SELECT * FROM Orders WHERE CustomerID = 101;"
             },
             {
-              "problem_id": 4,
-              "title": "Calculating Average Order Value",
-              "description": "Write a SQL query to calculate the average order amount from the 'OrderDetails' table.",
-              "database_schema": "CREATE TABLE OrderDetails (OrderDetailID INT PRIMARY KEY, OrderID INT, ProductID INT, Quantity INT, UnitPrice DECIMAL(10, 2));",
-              "correct_query": "SELECT AVG(Quantity * UnitPrice) AS AverageOrderValue FROM OrderDetails;"
+            "problem_id": 4,
+            "title": "Calculating Average Order Value",
+            "description": "Write a SQL query to calculate the average order amount from the 'OrderDetails' table.",
+            "database_schema": "CREATE TABLE OrderDetails (OrderDetailID INT PRIMARY KEY, OrderID INT, ProductID INT, Quantity INT, UnitPrice DECIMAL(10, 2));",
+            "correct_query": "SELECT AVG(Quantity * UnitPrice) AS AverageOrderValue FROM OrderDetails;"
             },
             {
-              "problem_id": 5,
-              "title": "Finding the Most Recent Order",
-              "description": "Write a SQL query to find the order with the most recent order date from the '
+            "problem_id": 5,
+            "title": "Finding the Most Recent Order",
+            "description": "Write a SQL query to find the order with the most recent order date from the 'Orders' table.",
+            "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
+            "correct_query": "SELECT * FROM Orders ORDER BY OrderDate DESC LIMIT 1;"
+            },
+            {
+            "problem_id": 6,
+            "title": "Joining Customers and Orders",
+            "description": "Write a SQL query to retrieve the first name of the customer and their corresponding order ID from the 'Customers' and 'Orders' tables.",
+            "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50)); CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
+            "correct_query": "SELECT c.FirstName, o.OrderID FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID;"
+            },
+            {
+            "problem_id": 7,
+            "title": "Finding Total Salesper Product",
+            "description": "Write a SQL query to find the total sales amount for each product from the 'OrderDetails' table.  Sales amount is calculated as quantity multiplied by unit price.",
+            "database_schema": "CREATE TABLE OrderDetails (OrderDetailID INT PRIMARY KEY, OrderID INT, ProductID INT, Quantity INT, UnitPrice DECIMAL(10, 2));",
+            "correct_query": "SELECT ProductID, SUM(Quantity * UnitPrice) AS TotalSales FROM OrderDetails GROUP BY ProductID;"
+            },
+            {
+            "problem_id": 8,
+            "title": "Selecting Customers from a Specific City",
+            "description": "Write a SQL query to retrieve the first and last names of all customers who are from 'New York' from the 'Customers' table.",
+            "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50));",
+            "correct_query": "SELECT FirstName, LastName FROM Customers WHERE City = 'New York';"
+            },
+            {
+            "problem_id": 9,
+            "title": "Finding the Highest Order Value",
+            "description": "Write a SQL query to find the highest order value from the 'OrderDetails' table. Order value is calculated as quantity multiplied by unit price.",
+            "database_schema": "CREATE TABLE OrderDetails (OrderDetailID INT PRIMARY KEY, OrderID INT, ProductID INT, Quantity INT, UnitPrice DECIMAL(10, 2));",
+            "correct_query": "SELECT MAX(Quantity * UnitPrice) AS HighestOrderValue FROM OrderDetails;"
+            },
+            {
+            "problem_id": 10,
+            "title": "Counting Customers in Each City",
+            "description": "Write a SQL query to count the number of customers in each city from the 'Customers' table.",
+            "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50));",
+            "correct_query": "SELECT City, COUNT(*) AS NumberOfCustomers FROM Customers GROUP BY City;"
+            }
+        ];
+
+        function displayDailySqlProblem() {
+            const randomIndex = Math.floor(Math.random() * dailySqlProblems.length);
+            const problem = dailySqlProblems[randomIndex];
+
+            document.getElementById("daily-problem-title").textContent = problem.title;
+            document.getElementById("daily-problem-description").textContent = problem.description;
+            document.getElementById("daily-problem-schema").textContent = problem.database_schema;
+        }
+
+        displayDailySqlProblem();
+    </script>
+</body>
+</html>
