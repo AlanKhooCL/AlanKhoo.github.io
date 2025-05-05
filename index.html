@@ -24,6 +24,7 @@
                         <li><a href="#experience" class="hover:text-blue-200 transition duration-300">Experience</a></li>
                         <li><a href="#education" class="hover:text-blue-200 transition duration-300">Education</a></li>
                         <li><a href="#contact" class="hover:text-blue-200 transition duration-300">Contact</a></li>
+                        <li><a href="#daily-sql" class="hover:text-blue-200 transition duration-300">SQL Challenge</a></li>
                     </ul>
                 </nav>
             </div>
@@ -43,6 +44,17 @@
                         insights, streamline operations, and build scalable automation solutions.
                     </p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="daily-sql" class="bg-white py-8 md:py-10">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">Today's SQL Challenge</h2>
+            <div class="bg-gray-100 rounded-lg p-6 shadow-md">
+                <h3 id="daily-problem-title" class="text-xl font-semibold text-blue-600 mb-2"></h3>
+                <p id="daily-problem-description" class="text-gray-700 leading-relaxed mb-4"></p>
+                <pre id="daily-problem-schema" class="bg-gray-200 rounded-md p-4 text-sm text-gray-800 whitespace-pre-wrap"></pre>
             </div>
         </div>
     </section>
@@ -147,34 +159,34 @@
                 <p class="text-gray-600 mb-2">2014 - 2017</p>
             </div>
              <div class="mt-8">
-                <h3 class="text-xl font-semibold text-blue-600 mb-4 text-center">Certifications</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                        <h4 class="text-lg font-medium text-gray-700 mb-1">Google Advanced Data Analytics</h4>
-                        <p class="text-gray-600 text-sm">Coursera | 2023</p>
-                    </div>
-                    <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                        <h4 class="text-lg font-medium text-gray-700 mb-1">Investment Foundations</h4>
-                        <p class="text-gray-600 text-sm">CFA Institute | 2023</p>
-                    </div>
+                 <h3 class="text-xl font-semibold text-blue-600 mb-4 text-center">Certifications</h3>
+                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                      <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                        <h4 class="text-lg font-medium text-gray-700 mb-1">Certified Configurator</h4>
-                        <p class="text-gray-600 text-sm">Unqork | 2023</p>
-                    </div>
-                    <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                        <h4 class="text-lg font-medium text-gray-700 mb-1">Uipath Certified RPA Associate</h4>
-                        <p class="text-gray-600 text-sm">UiPath | 2022</p>
-                    </div>
-                    <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                        <h4 class="text-lg font-medium text-gray-700 mb-1">Alteryx Designer Advanced</h4>
-                        <p class="text-gray-600 text-sm">Alteryx | 2021</p>
-                    </div>
-                    <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                        <h4 class="text-lg font-medium text-gray-700 mb-1">Professional Diploma in Data Analytics</h4>
+                         <h4 class="text-lg font-medium text-gray-700 mb-1">Google Advanced Data Analytics</h4>
+                         <p class="text-gray-600 text-sm">Coursera | 2023</p>
+                     </div>
+                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+                         <h4 class="text-lg font-medium text-gray-700 mb-1">Investment Foundations</h4>
+                         <p class="text-gray-600 text-sm">CFA Institute | 2023</p>
+                     </div>
+                      <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+                         <h4 class="text-lg font-medium text-gray-700 mb-1">Certified Configurator</h4>
+                         <p class="text-gray-600 text-sm">Unqork | 2023</p>
+                     </div>
+                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+                         <h4 class="text-lg font-medium text-gray-700 mb-1">Uipath Certified RPA Associate</h4>
+                         <p class="text-gray-600 text-sm">UiPath | 2022</p>
+                     </div>
+                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+                         <h4 class="text-lg font-medium text-gray-700 mb-1">Alteryx Designer Advanced</h4>
+                         <p class="text-gray-600 text-sm">Alteryx | 2021</p>
+                     </div>
+                     <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+                         <h4 class="text-lg font-medium text-gray-700 mb-1">Professional Diploma in Data Analytics</h4>
                          <p class="text-gray-600 text-sm">NUS-ISS | 2021</p>
-                    </div>
-                </div>
-            </div>
+                     </div>
+                 </div>
+             </div>
         </div>
     </section>
 
@@ -205,6 +217,37 @@
                 });
             });
         });
-    </script>
-</body>
-</html>
+
+        const dailySqlProblems = [
+            {
+              "problem_id": 1,
+              "title": "Selecting Customer Names",
+              "description": "Write a SQL query to retrieve the first and last names of all customers from the 'Customers' table.",
+              "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50));",
+              "correct_query": "SELECT FirstName, LastName FROM Customers;"
+            },
+            {
+              "problem_id": 2,
+              "title": "Counting Orders",
+              "description": "Write a SQL query to find the total number of orders in the 'Orders' table.",
+              "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
+              "correct_query": "SELECT COUNT(*) AS TotalOrders FROM Orders;"
+            },
+            {
+              "problem_id": 3,
+              "title": "Finding Orders from a Specific Customer",
+              "description": "Write a SQL query to retrieve all orders placed by the customer with CustomerID equal to 101 from the 'Orders' table.",
+              "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
+              "correct_query": "SELECT * FROM Orders WHERE CustomerID = 101;"
+            },
+            {
+              "problem_id": 4,
+              "title": "Calculating Average Order Value",
+              "description": "Write a SQL query to calculate the average order amount from the 'OrderDetails' table.",
+              "database_schema": "CREATE TABLE OrderDetails (OrderDetailID INT PRIMARY KEY, OrderID INT, ProductID INT, Quantity INT, UnitPrice DECIMAL(10, 2));",
+              "correct_query": "SELECT AVG(Quantity * UnitPrice) AS AverageOrderValue FROM OrderDetails;"
+            },
+            {
+              "problem_id": 5,
+              "title": "Finding the Most Recent Order",
+              "description": "Write a SQL query to find the order with the most recent order date from the '
