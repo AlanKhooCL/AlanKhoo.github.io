@@ -1,544 +1,386 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alan Khoo - Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resume | Alan Khoo Chi Loon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A single-page narrative SPA with fixed sidebar navigation. The structure progresses from a high-level summary (Intro, interactive dashboard) to detailed evidence (expandable career timeline, project case studies with charts), and concludes with credentials (education/certs). This user-centric flow is chosen over a static resume format to guide recruiters through a compelling story of skills and impact, making it easier to connect qualifications to job requirements through interactive filtering. -->
+    <!-- Visualization & Content Choices: 
+        - KPIs -> Goal: Inform -> Dynamic Stat Cards -> Interaction: Hover -> Justification: Quickly convey major achievements. (HTML/CSS).
+        - Skills List -> Goal: Organize/Relationships -> Interactive Skill Grid -> Interaction: Click to filter projects/experience -> Justification: Demonstrates the application of skills to specific outcomes. (JS).
+        - Career History -> Goal: Change -> Vertical Expandable Timeline -> Interaction: Click to reveal details -> Justification: More engaging and less overwhelming than a long text block. (JS).
+        - Project Impact (Pipeline Latency) -> Goal: Compare -> Bar Chart -> Interaction: Tooltip -> Justification: Visually dramatizes the "before and after" improvement. (Chart.js).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #3D405B;
         }
-        .container {
-            max-width: 1200px; /* Increased max-width for larger screens */
+        .nav-link {
+            transition: all 0.3s ease;
+            color: #81849A;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #3D405B;
+            transform: translateX(5px);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1rem;
+            left: -1.35rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 9999px;
+            border: 3px solid #E07A5F;
+            background-color: #F8F7F4;
+            z-index: 10;
+        }
+        .timeline-line {
+            position: absolute;
+            top: 1rem;
+            left: -0.8rem;
+            width: 2px;
+            height: 100%;
+            background-color: #CBD5E1;
+        }
+        .skill-tag {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .skill-tag.selected {
+            background-color: #E07A5F !important;
+            color: white !important;
+        }
+        .content-item {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .content-item.filtered-out {
+            opacity: 0.3;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-        .section {
-            padding-top: 4rem;  /* Increased padding for better spacing */
-            padding-bottom: 4rem;
-        }
-        .section-title {
-            font-size: 2.25rem; /* Larger font size */
-            font-weight: 600;
-            color: #1e293b; /* Slightly darker heading color */
-            text-align: center;
-            margin-bottom: 2.5rem; /* Increased margin */
-        }
-        /* Adjusted grid spacing and widths for Skills section */
-        #skills .grid {
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-            gap: 2rem;
+            height: 300px;
+            max-height: 400px;
         }
         @media (min-width: 768px) {
-            #skills .grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+            .chart-container {
+                height: 350px;
             }
-        }
-        @media (min-width: 1024px) {
-            #skills .grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-        }
-        #skills .bg-gray-100 {
-            background-color: #f3f4f6;
-            border-radius: 0.75rem; /* Rounded corners */
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Slightly stronger shadow */
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
-        }
-        #skills .bg-gray-100:hover {
-            transform: translateY(-0.5rem); /* Slight lift on hover */
-            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 3px 6px -1px rgba(0, 0, 0, 0.08); /* Increased shadow on hover */
-        }
-        #skills .text-xl {
-            font-size: 1.5rem; /* Increased font size */
-            font-weight: 600;
-            color: #1d4ed8; /* Stronger blue color */
-            margin-bottom: 0.5rem;
-        }
-        #skills .list-disc {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-            margin-left: 0.5rem;
-            color: #4b5563; /* Darker list text */
-            line-height: 1.75; /* Increased line height for better readability */
-        }
-        /* Experience Section Styles */
-        #experience .space-y-8 > div {
-            background-color: white;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        #experience .space-y-8 > div:hover {
-            transform: translateY(-0.5rem);
-             box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 3px 6px -1px rgba(0, 0, 0, 0.08);
-        }
-
-        #experience .text-xl {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1d4ed8;
-            margin-bottom: 0.5rem;
-        }
-        #experience .text-lg {
-            font-size: 1.125rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.25rem;
-        }
-        #experience .text-gray-600 {
-            color: #6b7280;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-        #experience .list-disc {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-            margin-left: 0.5rem;
-            color: #4b5563;
-            line-height: 1.75;
-        }
-
-        /* Education Section Styles */
-        #education .bg-gray-100 {
-            background-color: #f3f4f6;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        #education .text-xl {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1d4ed8;
-            margin-bottom: 0.5rem;
-        }
-        #education .text-lg {
-            font-size: 1.125rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.25rem;
-        }
-        #education .text-gray-600 {
-            color: #6b7280;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-        #education .mt-8 {
-            margin-top: 2rem;
-        }
-
-        #education .grid {
-            grid-template-columns: repeat(1, minmax(0, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        @media (min-width: 768px) {
-             #education .grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-        @media (min-width: 1024px) {
-            #education .grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-        }
-
-        #education .grid > div{
-            background-color: #f3f4f6;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        #education .grid .text-lg{
-            font-size: 1rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.25rem;
-        }
-
-        /* Contact Section Styles */
-        #contact .text-lg {
-            font-size: 1.25rem; /* Increased font size */
-            color: #4b5563; /* Slightly darker text */
-            line-height: 1.75; /* Increased line height */
-            text-align: center;
-        }
-        #contact .text-blue-600 {
-            color: #2563eb; /* Stronger blue for link */
-        }
-        #contact .text-blue-600:hover {
-            color: #1e40af; /* Darker blue on hover */
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: #374151; /* Darker footer background */
-            color: #f9fafb; /* Lighter footer text */
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
-            text-align: center;
-            border-top: 1px solid #4a5568; /* Add a border */
-        }
-        footer p{
-            font-size: 1rem;
-        }
-
-        /* About Section Styles */
-        #about {
-            background-color: #f3f4f6; /* Lighter background for about section */
-        }
-        #about .text-lg {
-            font-size: 1.125rem; /* Increased font size */
-            color: #4b5563; /* Slightly darker text */
-            line-height: 1.75; /* Increased line height */
-        }
-        #about .rounded-full {
-            border-radius: 9999px; /* Make sure it's a perfect circle */
-        }
-        #about .shadow-lg {
-             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        #about .flex-col > div{
-            margin-top: 2rem;
-        }
-
-        /* Daily SQL Problem Section Styles */
-        #daily-sql{
-            background-color: white;
-        }
-        #daily-sql .bg-gray-100{
-            background-color: #f3f4f6;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        #daily-sql .text-2xl{
-            font-size: 2rem;
-            font-weight: 600;
-            color: #1e293b;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        #daily-sql .text-xl{
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1d4ed8;
-            margin-bottom: 0.5rem;
-        }
-        #daily-sql .text-gray-700{
-            color: #4b5563;
-            line-height: 1.75;
-            margin-bottom: 1rem;
-        }
-        #daily-sql .bg-gray-200{
-            background-color: #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            font-size: 0.875rem;
-            color: #374151;
-            white-space: pre-wrap;
-            overflow-x: auto;
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <header class="bg-blue-600 text-white py-4 md:py-6">
-        <div class="container">
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <h1 class="text-2xl md:text-3xl font-semibold">Alan Khoo</h1>
-                <nav class="mt-4 md:mt-0">
-                    <ul class="flex space-x-4 md:space-x-6">
-                        <li><a href="#about" class="hover:text-blue-200 transition duration-300">About</a></li>
-                        <li><a href="#skills" class="hover:text-blue-200 transition duration-300">Skills</a></li>
-                        <li><a href="#experience" class="hover:text-blue-200 transition duration-300">Experience</a></li>
-                        <li><a href="#education" class="hover:text-blue-200 transition duration-300">Education</a></li>
-                        <li><a href="#contact" class="hover:text-blue-200 transition duration-300">Contact</a></li>
-                        <li><a href="#daily-sql" class="hover:text-blue-200 transition duration-300">SQL Challenge</a></li>
-                    </ul>
+<body class="leading-relaxed">
+
+    <div class="flex flex-col lg:flex-row">
+        <aside class="w-full lg:w-1/4 lg:h-screen lg:sticky lg:top-0 p-8 bg-white/50 backdrop-blur-sm border-r border-gray-200">
+            <div class="flex flex-col h-full">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-3xl font-bold text-gray-800">Alan Khoo</h1>
+                    <p class="text-lg text-[#E07A5F]">Data Analyst | Process Automation Specialist</p>
+                </div>
+                <nav id="navbar" class="hidden lg:block my-12 space-y-4">
+                    <a href="#summary" class="nav-link block font-medium">Summary</a>
+                    <a href="#impact" class="nav-link block font-medium">Impact Dashboard</a>
+                    <a href="#journey" class="nav-link block font-medium">Career Journey</a>
+                    <a href="#projects" class="nav-link block font-medium">Project Deep Dive</a>
+                    <a href="#credentials" class="nav-link block font-medium">Credentials</a>
                 </nav>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <section id="about" class="section">
-            <div class="container">
-                <h2 class="section-title">About Me</h2>
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="md:w-1/3">
-                        <img src="image/about.jpg" alt="Alan Khoo Profile Photo" class="rounded-full shadow-lg w-64 h-64 mx-auto">
-                    </div>
-                    <div class="md:w-2/3 text-lg">
-                        <p>
-                            Data analyst and automation expert with 4+ years in private banking (PB), specializing in Alteryx, Unqork, Python, SQL, and Tableau. Proven ability to transform raw data into actionable
-                            insights, streamline operations, and build scalable automation solutions.
-                        </p>
-                    </div>
+                <div class="mt-auto text-center lg:text-left pt-8">
+                    <p class="font-semibold text-gray-800 mb-2">Contact</p>
+                    <a href="mailto:alan.khoo.chi.loon@gmail.com" class="block text-sm text-gray-600 hover:text-[#E07A5F]">alan.khoo.chi.loon@gmail.com</a>
+                    <a href="https://www.linkedin.com/in/alankcl/" target="_blank" class="block text-sm text-gray-600 hover:text-[#E07A5F]">linkedin.com/in/alankcl</a>
+                    <p class="text-sm text-gray-600">+65 9642 1386</p>
                 </div>
             </div>
-        </section>
+        </aside>
 
-        <section id="daily-sql" class="section">
-            <div class="container">
-                <h2 class="text-2xl">Today's SQL Challenge</h2>
-                <div class="bg-gray-100">
-                    <h3 id="daily-problem-title" class="text-xl"></h3>
-                    <p id="daily-problem-description" class="text-gray-700"></p>
-                    <pre id="daily-problem-schema" class="bg-gray-200"></pre>
-                </div>
-            </div>
-        </section>
+        <main class="w-full lg:w-3/4 p-6 md:p-10 lg:p-16">
+            <section id="summary" class="mb-16">
+                 <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-[#E07A5F] pb-2">Professional Summary</h2>
+                <p class="text-lg text-gray-700">
+                    A data analyst and automation expert with over 8 years of combined experience in private banking operations and assurance services. I specialize in transforming raw data into actionable insights, streamlining complex operations, and building scalable automation solutions. My expertise lies in leveraging technologies like Python, SQL, Alteryx, and Tableau to drive efficiency, enhance decision-making, and deliver measurable business impact.
+                </p>
+            </section>
 
-        <section id="skills" class="section">
-            <div class="container">
-                <h2 class="section-title">Skills</h2>
-                <div class="grid">
-                    <div class="bg-gray-100">
-                        <h3 class="text-xl">Data Analysis</h3>
-                        <ul class="list-disc">
-                            <li>Python (Pandas, NumPy, Streamlit)</li>
-                            <li>SQL (complex joins)</li>
-                            <li>Alteryx (ETL pipelines)</li>
-                        </ul>
+            <section id="impact" class="mb-16">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-[#E07A5F] pb-2">Impact Dashboard</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-4xl font-bold text-[#3D405B]">2+</h3>
+                        <p class="text-gray-600 mt-2">Full-Time Headcounts Saved via Automation</p>
                     </div>
-                    <div class="bg-gray-100">
-                        <h3 class="text-xl">Automation</h3>
-                        <ul class="list-disc">
-                            <li>UiPath (RPA bots)</li>
-                            <li>Unqork (no-code apps)</li>
-                        </ul>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-4xl font-bold text-[#3D405B]">>1000</h3>
+                        <p class="text-gray-600 mt-2">At-Risk Clients Offboarded via Process Mining</p>
                     </div>
-                    <div class="bg-gray-100">
-                        <h3 class="text-xl">Visualization</h3>
-                        <ul class="list-disc">
-                            <li>Tableau (executive dashboards)</li>
-                        </ul>
-                    </div>
-                    <div class="bg-gray-100">
-                        <h3 class="text-xl">Tools</h3>
-                        <ul class="list-disc">
-                            <li>Confluence (documentation)</li>
-                            <li>JIRA (project tracking)</li>
-                        </ul>
-                    </div>
-                    <div class="bg-gray-100">
-                        <h3 class="text-xl">Domain Knowledge</h3>
-                        <ul class="list-disc">
-                            <li>PB operations</li>
-                        </ul>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-4xl font-bold text-[#3D405B]">$200B+</h3>
+                        <p class="text-gray-600 mt-2">Client AUM Analyzed for Management Insights</p>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section id="experience" class="section">
-            <div class="container">
-                <h2 class="section-title">Experience</h2>
-                <div class="space-y-8">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Core Competencies</h3>
+                    <p class="mb-4 text-gray-600">This application is interactive. Click on a skill below to highlight the projects and experiences where it was applied. Click the skill again to clear the filter.</p>
+                    <div id="skill-filter" class="flex flex-wrap gap-3">
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Python">Python</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="SQL">SQL</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Tableau">Tableau</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Automation">Automation</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Alteryx">Alteryx</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Unqork">Unqork</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Stakeholder Engagement">Stakeholder Engagement</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Process Improvement">Process Improvement</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="journey" class="mb-16">
+                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Career Journey</h2>
+                <div class="relative pl-4">
+                    <div class="timeline-line"></div>
+                    <div class="space-y-12">
+                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Python", "SQL", "Tableau", "Automation", "Stakeholder Engagement", "Process Improvement"]'>
+                            <p class="text-sm font-medium text-gray-500">2023 - Present</p>
+                            <h3 class="text-xl font-semibold text-gray-800">Operations Automation Sr. Associate</h3>
+                            <p class="font-medium text-gray-700">J.P. Morgan Private Bank</p>
+                             <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                                <li>Automated data pipeline for Asia Investment Operations, slashing data latency from 5 days to real-time.</li>
+                                <li>Developed a centralized dashboard for senior management, providing insights on over $200 billion in client AUM.</li>
+                                <li>Led a cross-functional task force to prioritize key technology releases, engaging senior executives.</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Automation", "Process Improvement"]'>
+                            <p class="text-sm font-medium text-gray-500">2020 - 2023</p>
+                            <h3 class="text-xl font-semibold text-gray-800">Process Improvement Associate</h3>
+                            <p class="font-medium text-gray-700">J.P. Morgan Private Bank</p>
+                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                                <li>Designed and automated the Lending Value Tool, freeing up one full-time employee.</li>
+                                <li>Automated the Margin Call report, significantly improving client experience and saving one FTE.</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Stakeholder Engagement"]'>
+                            <p class="text-sm font-medium text-gray-500">2020</p>
+                            <h3 class="text-xl font-semibold text-gray-800">Assurance Services Audit Assistant</h3>
+                            <p class="font-medium text-gray-700">Ernst & Young LLP</p>
+                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                                <li>Spearheaded end-to-end audit fieldwork for five major healthcare institutions under Singapore's MOH.</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Automation", "Stakeholder Engagement"]'>
+                            <p class="text-sm font-medium text-gray-500">2017 - 2020</p>
+                            <h3 class="text-xl font-semibold text-gray-800">Senior Assurance Associate</h3>
+                            <p class="font-medium text-gray-700">Foo Kon Tan LLP</p>
+                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                                <li>Led the audit of a Singapore-listed company with 19 subsidiaries, ensuring timely publication of financial statements.</li>
+                                <li>Developed Excel macros to automate reconciliations, cutting manual fieldwork by 20%.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="projects" class="mb-16">
+                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Project Deep Dive</h2>
+                <div class="space-y-10">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 content-item" data-skills-used='["Python", "SQL", "Tableau", "Automation"]'>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Data Pipeline and Dashboard Modernization</h3>
+                        <p class="text-gray-600 mb-4">This project aimed to overhaul the data infrastructure for Asia Investment Operations to enable faster, more accurate regulatory reporting and empower senior leadership with real-time strategic insights.</p>
+                        <div class="chart-container">
+                            <canvas id="latencyChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-500 mt-2">Data Latency Reduction from 5 Days to Real-Time</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 content-item" data-skills-used='["Automation", "Process Improvement"]'>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Operational Efficiency Gains through Automation</h3>
+                        <p class="text-gray-600 mb-4">Two key manual processes, advisor requests for lending values and margin call reporting, were identified as bottlenecks. The goal was to automate these workflows to free up operational capacity and improve client service.</p>
+                         <div class="chart-container">
+                            <canvas id="fteChart"></canvas>
+                        </div>
+                         <p class="text-center text-sm text-gray-500 mt-2">Capacity Generation Equivalent to 2 Full-Time Employees</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="credentials">
+                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Credentials</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <h3 class="text-xl">J.P. Morgan Private Bank</h3>
-                        <h4 class="text-lg">Operations Automation Senior Associate</h4>
-                        <p class="text-gray-600">2023 - Present</p>
-                        <ul class="list-disc">
-                            <li>Automated data extraction for Asia Investment Operations, reducing latency from 5 business days to real-time, enabling faster decision-making on $2.1B client AUM data.</li>
-                            <li>Designed a centralised Investment Operations dashboard to provide senior management with actionable insights leading to a reduction brokerage tech disruptions by 45%
-                            and accelerated hedge fund processing by 50%.</li>
-                            <li>Conducted process mining on account closures in response to regulatory requirements, identifying and offboarding 1,000+ clients (on hold &gt;90 days);
-                            built monitoring dashboard for ongoing oversight of account closure processes.</li>
-                             <li>Lead a cross-functional team (since 2024) for Asia Operations' Quarterly Business Review (QBR), highlighting impacts and
-                            key challenges including hybrid (digital/manual) processes.</li>
-                        </ul>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Education</h3>
+                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                            <p class="font-bold">Nanyang Technological University</p>
+                            <p class="text-gray-700">Bachelor in Accountancy (Hons.)</p>
+                            <p class="text-sm text-gray-500">2014 - 2017</p>
+                        </div>
                     </div>
                     <div>
-                        <h3 class="text-xl">J.P.Morgan Private Bank</h3>
-                        <h4 class="text-lg">Process Improvement Associate</h4>
-                        <p class="text-gray-600">2020 - 2023</p>
-                        <ul class="list-disc">
-                            <li>Designed the Lending Value Tool, automating hundreds of weekly advisor requests and freeing up one full-time headcount.</li>
-                            <li>Automated the Margin Call report, improving client experience, and generating capacity equivalent to one full-time employee.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl">Ernst & Young LLP</h3>
-                        <h4 class="text-lg">Assurance Services Audit Assistant</h4>
-                        <p class="text-gray-600">2020</p>
-                        <ul class="list-disc">
-                            <li>Spearheaded end-to-end audit fieldwork for five healthcare institutions under Singapore's Ministry of Health (MOH).</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-xl">Foo Kon Tan LLP</h3>
-                        <h4 class="text-lg">Senior Assurance Associate</h4>
-                        <p class="text-gray-600">2017 - 2020</p>
-                        <ul class="list-disc">
-                            <li>Led the audit of a Singapore-listed company with 19 subsidiaries, ensuring the timely publication of audited financial statements for 2018 and 2019.</li>
-                            <li>Developed Excel macros to automate GL reconciliations and trend analysis, cutting manual fieldwork by 20% and ensuring
-                            audit deadlines were met despite team attrition.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="education" class="section">
-            <div class="container">
-                <h2 class="section-title">Education</h2>
-                <div class="bg-gray-100">
-                    <h3 class="text-xl">Nanyang Technological University</h3>
-                    <h4 class="text-lg">Bachelor in Accountancy (Hons.)</h4>
-                    <p class="text-gray-600">2014 - 2017</p>
-                </div>
-                <div class="mt-8">
-                    <h3 class="text-xl text-center">Certifications</h3>
-                    <div class="grid">
-                        <div>
-                            <h4 class="text-lg">Google Advanced Data Analytics</h4>
-                            <p class="text-gray-600 text-sm">Coursera | 2023</p>
-                        </div>
-                        <div>
-                            <h4 class="text-lg">Investment Foundations</h4>
-                            <p class="text-gray-600 text-sm">CFA Institute | 2023</p>
-                        </div>
-                        <div>
-                            <h4 class="text-lg">Certified Configurator</h4>
-                            <p class="text-gray-600 text-sm">Unqork | 2023</p>
-                        </div>
-                        <div>
-                            <h4 class="text-lg">Uipath Certified RPA Associate</h4>
-                            <p class="text-gray-600 text-sm">UiPath | 2022</p>
-                        </div>
-                         <div>
-                            <h4 class="text-lg">Alteryx Designer Advanced</h4>
-                            <p class="text-gray-600 text-sm">Alteryx | 2021</p>
-                        </div>
-                        <div>
-                            <h4 class="text-lg">Professional Diploma in Data Analytics</h4>
-                            <p class="text-gray-600 text-sm">NUS-ISS | 2021</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Certifications</h3>
+                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-3">
+                            <p><span class="font-bold">Google Advanced Data Analytics</span> - Coursera, 2023</p>
+                            <p><span class="font-bold">Investment Foundations</span> - CFA Institute, 2023</p>
+                            <p><span class="font-bold">Certified Configurator</span> - Unqork, 2023</p>
+                            <p><span class="font-bold">Uipath Certified RPA Associate</span> - UiPath, 2022</p>
+                            <p><span class="font-bold">Alteryx Designer Advanced</span> - Alteryx, 2021</p>
+                            <p><span class="font-bold">Professional Diploma in Data Analytics</span> - NUS-ISS, 2021</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </main>
+    </div>
 
-        <section id="contact" class="section">
-            <div class="container">
-                <h2 class="section-title">Contact Me</h2>
-                <div class="text-lg">
-                    <p>Email: alan.khoo.chi.loon@gmail.com</p>
-                    <p>Phone: +65 9642 1386</p>
-                    <p>Website: <a href="www.alankcl.com" class="text-blue-600 hover:underline">www.alankcl.com</a></p>
-                </div>
-            </div>
-        </section>
-    </main>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-    <footer class="bg-gray-800 text-white py-4">
-        <div class="container">
-            <p>&copy; 2024 Alan Khoo. All rights reserved.</p>
-        </div>
-    </footer>
+        const sections = document.querySelectorAll('main section');
+        const navLinks = document.querySelectorAll('#navbar a');
 
-    <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
             });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
         });
 
-        const dailySqlProblems = [
-            {
-            "problem_id": 1,
-            "title": "Selecting Customer Names",
-            "description": "Write a SQL query to retrieve the first and last names of all customers from the 'Customers' table.",
-            "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50));",
-            "correct_query": "SELECT FirstName, LastName FROM Customers;"
-            },
-            {
-            "problem_id": 2,
-            "title": "Counting Orders",
-            "description": "Write a SQL query to find the total number of orders in the 'Orders' table.",
-            "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
-            "correct_query": "SELECT COUNT(*) AS TotalOrders FROM Orders;"
-            },
-            {
-            "problem_id": 3,
-            "title": "Finding Orders from a Specific Customer",
-            "description": "Write a SQL query to retrieve all orders placed by the customer with CustomerID equal to 101 from the 'Orders' table.",
-            "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
-            "correct_query": "SELECT * FROM Orders WHERE CustomerID = 101;"
-            },
-            {
-            "problem_id": 4,
-            "title": "Calculating Average Order Value",
-            "description": "Write a SQL query to calculate the average order amount from the 'OrderDetails' table.",
-            "database_schema": "CREATE TABLE OrderDetails (OrderDetailID INT PRIMARY KEY, OrderID INT, ProductID INT, Quantity INT, UnitPrice DECIMAL(10, 2));",
-            "correct_query": "SELECT AVG(Quantity * UnitPrice) AS AverageOrderValue FROM OrderDetails;"
-            },
-            {
-            "problem_id": 5,
-            "title": "Finding the Most Recent Order",
-            "description": "Write a SQL query to find the order with the most recent order date from the 'Orders' table.",
-            "database_schema": "CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
-            "correct_query": "SELECT * FROM Orders ORDER BY OrderDate DESC LIMIT 1;"
-            },
-            {
-            "problem_id": 6,
-            "title": "Joining Customers and Orders",
-            "description": "Write a SQL query to retrieve the first name of the customer and their corresponding order ID from the 'Customers' and 'Orders' tables.",
-            "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50)); CREATE TABLE Orders (OrderID INT PRIMARY KEY, CustomerID INT, OrderDate DATE);",
-            "correct_query": "SELECT c.FirstName, o.OrderID FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID;"
-            },
-            {
-            "problem_id": 7,
-            "title": "Finding Total Salesper Product",
-            "description": "Write a SQL query to find the total sales amount for each product from the 'OrderDetails' table.  Sales amount is calculated as quantity multiplied by unit price.",
-            "database_schema": "CREATE TABLE OrderDetails (OrderDetailID INT PRIMARY KEY, OrderID INT, ProductID INT, Quantity INT, UnitPrice DECIMAL(10, 2));",
-            "correct_query": "SELECT ProductID, SUM(Quantity * UnitPrice) AS TotalSales FROM OrderDetails GROUP BY ProductID;"
-            },
-            {
-            "problem_id": 8,
-            "title": "Selecting Customers from a Specific City",
-            "description": "Write a SQL query to retrieve the first and last names of all customers who are from 'New York' from the 'Customers' table.",
-            "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50));",
-            "correct_query": "SELECT FirstName, LastName FROM Customers WHERE City = 'New York';"
-            },
-            {
-            "problem_id": 9,
-            "title": "Finding the Highest Order Value",
-            "description": "Write a SQL query to find the highest order value from the 'OrderDetails' table. Order value is calculated as quantity multiplied by unit price.",
-            "database_schema": "CREATE TABLE OrderDetails (OrderDetailID INT PRIMARY KEY, OrderID INT, ProductID INT, Quantity INT, UnitPrice DECIMAL(10, 2));",
-            "correct_query": "SELECT MAX(Quantity * UnitPrice) AS HighestOrderValue FROM OrderDetails;"
-            },
-            {
-            "problem_id": 10,
-            "title": "Counting Customers in Each City",
-            "description": "Write a SQL query to count the number of customers in each city from the 'Customers' table.",
-            "database_schema": "CREATE TABLE Customers (CustomerID INT PRIMARY KEY, FirstName VARCHAR(50), LastName VARCHAR(50), City VARCHAR(50));",
-            "correct_query": "SELECT City, COUNT(*) AS NumberOfCustomers FROM Customers GROUP BY City;"
+        const skillFilter = document.getElementById('skill-filter');
+        const contentItems = document.querySelectorAll('.content-item');
+        let selectedSkill = null;
+
+        skillFilter.addEventListener('click', (e) => {
+            if (e.target.classList.contains('skill-tag')) {
+                const skill = e.target.dataset.skill;
+                
+                if(selectedSkill === skill) {
+                    selectedSkill = null;
+                    e.target.classList.remove('selected');
+                } else {
+                    skillFilter.querySelectorAll('.skill-tag').forEach(tag => tag.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                    selectedSkill = skill;
+                }
+                
+                contentItems.forEach(item => {
+                    if (selectedSkill) {
+                        const skillsUsed = JSON.parse(item.dataset.skillsUsed || '[]');
+                        if (skillsUsed.includes(selectedSkill)) {
+                            item.classList.remove('filtered-out');
+                        } else {
+                            item.classList.add('filtered-out');
+                        }
+                    } else {
+                        item.classList.remove('filtered-out');
+                    }
+                });
             }
-        ];
+        });
 
-        function displayDailySqlProblem() {
-            const randomIndex = Math.floor(Math.random() * dailySqlProblems.length);
-            const problem = dailySqlProblems[randomIndex];
+        const latencyChartCtx = document.getElementById('latencyChart').getContext('2d');
+        new Chart(latencyChartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Before Automation', 'After Automation'],
+                datasets: [{
+                    label: 'Data Latency (in Business Days)',
+                    data: [5, 0.05],
+                    backgroundColor: ['#F9C74F', '#43AA8B'],
+                    borderColor: ['#F9C74F', '#43AA8B'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Business Days'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    if(context.dataIndex === 1) {
+                                        label += 'Real-time';
+                                    } else {
+                                        label += context.parsed.y + ' days';
+                                    }
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
-            document.getElementById("daily-problem-title").textContent = problem.title;
-            document.getElementById("daily-problem-description").textContent = problem.description;
-            document.getElementById("daily-problem-schema").textContent = problem.database_schema;
-        }
+        const fteChartCtx = document.getElementById('fteChart').getContext('2d');
+        new Chart(fteChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['FTE Capacity Generated', 'Remaining Team (Illustrative)'],
+                datasets: [{
+                    data: [2, 8],
+                    backgroundColor: ['#43AA8B', '#F4F1DE'],
+                    borderColor: ['#43AA8B', '#EAE7C6'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Automation Impact on Team Capacity'
+                    }
+                }
+            }
+        });
 
-        displayDailySqlProblem();
-    </script>
+    });
+</script>
 </body>
 </html>
