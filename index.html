@@ -89,7 +89,7 @@
             <div class="flex flex-col h-full">
                 <div class="text-center lg:text-left">
                     <h1 class="text-3xl font-bold text-gray-800">Alan Khoo</h1>
-                    <p class="text-lg text-[#E07A5F]">Data Analyst | Process Automation Specialist</p>
+                    <p class="text-lg text-[#E07A5F]">Data Analyst</p>
                 </div>
                 <nav id="navbar" class="hidden lg:block my-12 space-y-4">
                     <a href="#summary" class="nav-link block font-medium">Summary</a>
@@ -111,7 +111,7 @@
             <section id="summary" class="mb-16">
                  <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-[#E07A5F] pb-2">Professional Summary</h2>
                 <p class="text-lg text-gray-700">
-                    A data analyst and automation expert with over 8 years of combined experience in private banking operations and assurance services. I specialize in transforming raw data into actionable insights, streamlining complex operations, and building scalable automation solutions. My expertise lies in leveraging technologies like Python, SQL, Alteryx, and Tableau to drive efficiency, enhance decision-making, and deliver measurable business impact.
+                    Data Specialist leveraging 8 years of expertise in Private Banking and Assurance to build scalable, data-driven solutions. Advanced proficiency in Python, Tableau, and SQL, adept at synthesizing complex data into actionable dashboards and executive-level presentations that mitigate risk and optimize revenue.
                 </p>
             </section>
 
@@ -155,12 +155,13 @@
                     <div class="space-y-12">
                         <div class="timeline-item relative pl-8 content-item" data-skills-used='["Python", "SQL", "Tableau", "Automation", "Stakeholder Engagement", "Process Improvement"]'>
                             <p class="text-sm font-medium text-gray-500">2023 - Present</p>
-                            <h3 class="text-xl font-semibold text-gray-800">Operations Automation Sr. Associate</h3>
+                            <h3 class="text-xl font-semibold text-gray-800">Vice President, Data and Automation</h3>
                             <p class="font-medium text-gray-700">J.P. Morgan Private Bank</p>
                              <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
-                                <li>Automated data pipeline for Asia Investment Operations, slashing data latency from 5 days to real-time.</li>
-                                <li>Developed a centralized dashboard for senior management, providing insights on over $200 billion in client AUM.</li>
-                                <li>Led a cross-functional task force to prioritize key technology releases, engaging senior executives.</li>
+                                <li>Automated data extraction with SQL, eliminating a 5-day dependency on technical teams and enabling real-time reporting for time-critical regulatory requirements.</li>
+                                <li>Developed a centralized Tableau dashboard for senior leadership, facilitating data-driven oversight for $200B+ in AUM and accelerating executive decision-making cycles.</li>
+                                <li>Engineered Python-based process mining workflows to ensure regulatory compliance, identifying and offboarding 1,000+ non-compliant accounts to mitigate institutional risk.</li>
+                                <li>Spearheaded a task force to design high-impact management review decks, synthesizing complex data into actionable insights that identified $5M in unbilled fees and ADR charges; successfully recovered lost revenue and streamlined fee collection process.</li>
                             </ul>
                         </div>
                         <div class="timeline-item relative pl-8 content-item" data-skills-used='["Automation", "Process Improvement"]'>
@@ -203,14 +204,6 @@
                             <canvas id="latencyChart"></canvas>
                         </div>
                         <p class="text-center text-sm text-gray-500 mt-2">Data Latency Reduction from 5 Days to Real-Time</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 content-item" data-skills-used='["Automation", "Process Improvement"]'>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Operational Efficiency Gains through Automation</h3>
-                        <p class="text-gray-600 mb-4">Two key manual processes, advisor requests for lending values and margin call reporting, were identified as bottlenecks. The goal was to automate these workflows to free up operational capacity and improve client service.</p>
-                         <div class="chart-container">
-                            <canvas id="fteChart"></canvas>
-                        </div>
-                         <p class="text-center text-sm text-gray-500 mt-2">Capacity Generation Equivalent to 2 Full-Time Employees</p>
                     </div>
                 </div>
             </section>
@@ -308,7 +301,7 @@
         new Chart(latencyChartCtx, {
             type: 'bar',
             data: {
-                labels: ['Before Automation', 'After Automation'],
+                labels: ['Wait time Before Automation', 'Wait time After Automation'],
                 datasets: [{
                     label: 'Data Latency (in Business Days)',
                     data: [5, 0.05],
