@@ -1,141 +1,376 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alan Khoo | Operations Automation Lead</title>
+    <title>Interactive Resume | Alan Khoo Chi Loon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A single-page narrative SPA with fixed sidebar navigation. The structure progresses from a high-level summary (Intro, interactive dashboard) to detailed evidence (expandable career timeline, project case studies with charts), and concludes with credentials (education/certs). This user-centric flow is chosen over a static resume format to guide recruiters through a compelling story of skills and impact, making it easier to connect qualifications to job requirements through interactive filtering. -->
+    <!-- Visualization & Content Choices: 
+        - KPIs -> Goal: Inform -> Dynamic Stat Cards -> Interaction: Hover -> Justification: Quickly convey major achievements. (HTML/CSS).
+        - Skills List -> Goal: Organize/Relationships -> Interactive Skill Grid -> Interaction: Click to filter projects/experience -> Justification: Demonstrates the application of skills to specific outcomes. (JS).
+        - Career History -> Goal: Change -> Vertical Expandable Timeline -> Interaction: Click to reveal details -> Justification: More engaging and less overwhelming than a long text block. (JS).
+        - Project Impact (Pipeline Latency) -> Goal: Compare -> Bar Chart -> Interaction: Tooltip -> Justification: Visually dramatizes the "before and after" improvement. (Chart.js).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
-        .gradient-text {
-            background: linear-gradient(90deg, #1e40af, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #3D405B;
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
+        .nav-link {
             transition: all 0.3s ease;
+            color: #81849A;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #3D405B;
+            transform: translateX(5px);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1rem;
+            left: -1.35rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 9999px;
+            border: 3px solid #E07A5F;
+            background-color: #F8F7F4;
+            z-index: 10;
+        }
+        .timeline-line {
+            position: absolute;
+            top: 1rem;
+            left: -0.8rem;
+            width: 2px;
+            height: 100%;
+            background-color: #CBD5E1;
+        }
+        .skill-tag {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .skill-tag.selected {
+            background-color: #E07A5F !important;
+            color: white !important;
+        }
+        .content-item {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .content-item.filtered-out {
+            opacity: 0.3;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans">
+<body class="leading-relaxed">
 
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-            <span class="text-xl font-bold tracking-tight">ALAN <span class="text-blue-600">KHOO</span></span>
-            <div class="space-x-8 text-sm font-medium">
-                <a href="#about" class="hover:text-blue-600 transition">About</a>
-                <a href="#experience" class="hover:text-blue-600 transition">Experience</a>
-                <a href="#skills" class="hover:text-blue-600 transition">Skills</a>
-                <a href="mailto:alan.khoo.chi.loon@gmail.com" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Contact</a>
+    <div class="flex flex-col lg:flex-row">
+        <aside class="w-full lg:w-1/4 lg:h-screen lg:sticky lg:top-0 p-8 bg-white/50 backdrop-blur-sm border-r border-gray-200">
+            <div class="flex flex-col h-full">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-3xl font-bold text-gray-800">Alan Khoo</h1>
+                    <p class="text-lg text-[#E07A5F]">Data Analyst</p>
+                </div>
+                <nav id="navbar" class="hidden lg:block my-12 space-y-4">
+                    <a href="#summary" class="nav-link block font-medium">Summary</a>
+                    <a href="#impact" class="nav-link block font-medium">Impact Dashboard</a>
+                    <a href="#journey" class="nav-link block font-medium">Career Journey</a>
+                    <a href="#projects" class="nav-link block font-medium">Project Deep Dive</a>
+                    <a href="#credentials" class="nav-link block font-medium">Credentials</a>
+                </nav>
+                <div class="mt-auto text-center lg:text-left pt-8">
+                    <p class="font-semibold text-gray-800 mb-2">Contact</p>
+                    <a href="mailto:alan.khoo.chi.loon@gmail.com" class="block text-sm text-gray-600 hover:text-[#E07A5F]">alan.khoo.chi.loon@gmail.com</a>
+                    <a href="https://www.linkedin.com/in/alankcl/" target="_blank" class="block text-sm text-gray-600 hover:text-[#E07A5F]">linkedin.com/in/alankcl</a>
+                    <p class="text-sm text-gray-600">+65 9642 1386</p>
+                </div>
             </div>
-        </div>
-    </nav>
+        </aside>
 
-    <header id="about" class="max-w-5xl mx-auto px-6 py-20">
-        <div class="max-w-3xl">
-            <h1 class="text-5xl font-extrabold mb-6 leading-tight">
-                Operations Automation Lead & <br><span class="gradient-text">Data Specialist</span>
-            </h1>
-            <p class="text-lg text-slate-600 mb-8 leading-relaxed">
-                Vice President at J.P. Morgan Private Bank  with over 8 years of expertise in Private Banking and Assurance[cite: 34]. 
-                I specialize in driving digital roadmaps through low-code automation, AI integration [cite: 35], and translating complex data into executive strategy[cite: 36].
-            </p>
-            <div class="flex space-x-4">
-                <a href="#" class="flex items-center space-x-2 text-slate-500 hover:text-blue-600 transition">
-                    <i class="fab fa-linkedin text-xl"></i>
-                    <span class="text-sm font-semibold">LinkedIn</span>
-                </a>
-                <a href="https://alankcl.com/" class="flex items-center space-x-2 text-slate-500 hover:text-blue-600 transition">
-                    <i class="fas fa-globe text-xl"></i>
-                    <span class="text-sm font-semibold">Portfolio</span>
-                </a>
-            </div>
-        </div>
-    </header>
+        <main class="w-full lg:w-3/4 p-6 md:p-10 lg:p-16">
+            <section id="summary" class="mb-16">
+                 <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-[#E07A5F] pb-2">Professional Summary</h2>
+                <p class="text-lg text-gray-700">
+                    Data Specialist & Automation Lead with over 8 years of expertise in Private Banking and Assurance. Currently driving the digital roadmap for Investment Operations by overseeing a portfolio of low-code automation and AI initiatives. Expert in translating technical outputs into executive-level strategy, having previously enabled data-driven oversight for $200B+ in AUM and identified $5M in revenue recovery through high-impact management reviews.
+                </p>
+            </section>
 
-    <section class="bg-white border-y border-slate-200">
-        <div class="max-w-5xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-                <p class="text-4xl font-bold text-blue-600">$200B+</p>
-                <p class="text-sm text-slate-500 uppercase tracking-wide font-semibold">AUM Oversight [cite: 40]</p>
-            </div>
-            <div>
-                <p class="text-4xl font-bold text-blue-600">$5M</p>
-                <p class="text-sm text-slate-500 uppercase tracking-wide font-semibold">Revenue Recovered [cite: 42]</p>
-            </div>
-            <div>
-                <p class="text-4xl font-bold text-blue-600">2 FTE</p>
-                <p class="text-sm text-slate-500 uppercase tracking-wide font-semibold">Capacity Generated [cite: 48]</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="max-w-5xl mx-auto px-6 py-20">
-        <h2 class="text-2xl font-bold mb-12">Professional Experience</h2>
-        
-        <div class="space-y-12">
-            <div class="relative pl-8 border-l-2 border-slate-200">
-                <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-blue-600"></div>
-                <div class="flex justify-between items-start mb-2">
-                    <div>
-                        <h3 class="text-xl font-bold">Vice President, Operations Automation Lead</h3>
-                        <p class="text-blue-600 font-medium">J.P. Morgan Private Bank </p>
+            <section id="impact" class="mb-16">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-[#E07A5F] pb-2">Impact Dashboard</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-4xl font-bold text-[#3D405B]">2+</h3>
+                        <p class="text-gray-600 mt-2">Full-Time Headcounts Saved via Automation</p>
                     </div>
-                    <span class="text-sm text-slate-400 font-medium">2023 - Present [cite: 39]</span>
-                </div>
-                <ul class="text-slate-600 space-y-3 mt-4">
-                    <li class="flex items-start"><i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i> Standardize monthly metrics and Tableau dashboards for $200B+ AUM[cite: 40].</li>
-                    <li class="flex items-start"><i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i> Orchestrate QBR narratives for senior leadership to drive revenue recovery[cite: 41, 42].</li>
-                    <li class="flex items-start"><i class="fas fa-check-circle text-blue-500 mt-1 mr-3"></i> Lead cross-functional SOP Buddy AI pilot and reusable prompt engineering[cite: 43, 44].</li>
-                </ul>
-            </div>
-
-            <div class="relative pl-8 border-l-2 border-slate-200">
-                <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-slate-300"></div>
-                <div class="flex justify-between items-start mb-2">
-                    <div>
-                        <h3 class="text-xl font-bold">Process Improvement Associate</h3>
-                        <p class="text-blue-600 font-medium">J.P. Morgan Private Bank [cite: 46]</p>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-4xl font-bold text-[#3D405B]">$5M</h3>
+                        <p class="text-gray-600 mt-2">Revenue Recovery</p>
                     </div>
-                    <span class="text-sm text-slate-400 font-medium">2020 - 2023 [cite: 47]</span>
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-4xl font-bold text-[#3D405B]">$200B+</h3>
+                        <p class="text-gray-600 mt-2">Client AUM Analyzed for Management Insights</p>
+                    </div>
                 </div>
-                <p class="text-slate-600 mt-2">Architected the Lending Value Tool and automated Margin Call reports, generating 2 FTE in operational capacity[cite: 48].</p>
-            </div>
-        </div>
-    </section>
 
-    <section id="skills" class="bg-slate-900 text-white py-20">
-        <div class="max-w-5xl mx-auto px-6">
-            <h2 class="text-2xl font-bold mb-12">Technical Toolkit</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="p-6 rounded-xl bg-white/5 border border-white/10 card-hover">
-                    <i class="fas fa-code text-blue-400 text-2xl mb-4"></i>
-                    <h4 class="font-bold mb-2">Data & Auto</h4>
-                    <p class="text-xs text-slate-400">Python, SQL, Alteryx [cite: 23-25]</p>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Core Competencies</h3>
+                    <p class="mb-4 text-gray-600">This application is interactive. Click on a skill below to highlight the projects and experiences where it was applied. Click the skill again to clear the filter.</p>
+                    <div id="skill-filter" class="flex flex-wrap gap-3">
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Python">Python</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="SQL">SQL</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Tableau">Tableau</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Automation">Automation</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Alteryx">Alteryx</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Unqork">Unqork</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Stakeholder Engagement">Stakeholder Engagement</span>
+                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Process Improvement">Process Improvement</span>
+                    </div>
                 </div>
-                <div class="p-6 rounded-xl bg-white/5 border border-white/10 card-hover">
-                    <i class="fas fa-robot text-blue-400 text-2xl mb-4"></i>
-                    <h4 class="font-bold mb-2">AI & Innovation</h4>
-                    <p class="text-xs text-slate-400">SOP Buddy, Prompt Eng [cite: 26, 27]</p>
-                </div>
-                <div class="p-6 rounded-xl bg-white/5 border border-white/10 card-hover">
-                    <i class="fas fa-chart-bar text-blue-400 text-2xl mb-4"></i>
-                    <h4 class="font-bold mb-2">Reporting</h4>
-                    <p class="text-xs text-slate-400">Tableau, PowerPoint [cite: 28, 29]</p>
-                </div>
-                <div class="p-6 rounded-xl bg-white/5 border border-white/10 card-hover">
-                    <i class="fas fa-tasks text-blue-400 text-2xl mb-4"></i>
-                    <h4 class="font-bold mb-2">Management</h4>
-                    <p class="text-xs text-slate-400">Jira, Confluence [cite: 31, 32]</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <footer class="py-12 border-t border-slate-200 text-center">
-        <p class="text-sm text-slate-500">© 2026 Alan Khoo. Built for Operational Excellence.</p>
-    </footer>
+            <section id="journey" class="mb-16">
+                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Career Journey</h2>
+                <div class="relative pl-4">
+                    <div class="timeline-line"></div>
+                    <div class="space-y-12">
+                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Python", "SQL", "Tableau", "Automation", "Stakeholder Engagement", "Process Improvement"]'>
+                            <p class="text-sm font-medium text-gray-500">2023 - Present</p>
+                            <h3 class="text-xl font-semibold text-gray-800">Vice President, Data and Automation</h3>
+                            <p class="font-medium text-gray-700">J.P. Morgan Private Bank</p>
+                             <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                                <li>Business Intelligence & AUM Oversight: Standardize monthly metrics and centralized Tableau dashboards for stakeholders to provide real-time oversight for $200B+ in AUM, accelerating executive decision-making cycles across the Private Bank.</li>
+                                <li>Executive Strategy & Revenue Recovery: Orchestrate a cross-functional task force to engineer Quarterly Business Review (QBR) narratives for senior leadership; builds upon a proven track record of synthesizing complex data to identify $5M in unbilled fees and recover lost revenue.</li>
+                                <li>AI Adoption & Practical Integration: Represent Investment Operations as the lead for the cross-functional SOP Buddy pilot, driving internal tool adoption and alignment. Developed a library of reusable prompt assistants to enhance day-to-day functionalities.</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Automation", "Process Improvement"]'>
+                            <p class="text-sm font-medium text-gray-500">2020 - 2023</p>
+                            <h3 class="text-xl font-semibold text-gray-800">Process Improvement Associate</h3>
+                            <p class="font-medium text-gray-700">J.P. Morgan Private Bank</p>
+                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                                <li>Operational Efficiency & Capacity Generation: Architected the Lending Value Tool and fully automated the Margin Call report , streamlining hundreds of weekly advisor requests and enhancing the client experience to generate a total of 2 FTE in capacity.</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Stakeholder Engagement"]'>
+                            <p class="text-sm font-medium text-gray-500">2020</p>
+                            <h3 class="text-xl font-semibold text-gray-800">Assurance Services Audit Assistant</h3>
+                            <p class="font-medium text-gray-700">Ernst & Young LLP</p>
+                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                                <li>Strategic Audit Execution: Spearheaded end-to-end audit fieldwork for five healthcare institutions under Singapore’s Ministry of Health (MOH).</li>
+                            </ul>
+                        </div>
+                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Automation", "Stakeholder Engagement"]'>
+                            <p class="text-sm font-medium text-gray-500">2017 - 2020</p>
+                            <h3 class="text-xl font-semibold text-gray-800">Senior Assurance Associate</h3>
+                            <p class="font-medium text-gray-700">Foo Kon Tan LLP</p>
+                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                                <li>Audit Leadership & Process Automation: Orchestrated end-to-end audits for a Singapore-listed entity and 19 subsidiaries to ensure timely financial reporting for 2018 and 2019 ; engineered Excel macros to automate GL reconciliations and trend analysis, reducing manual fieldwork by 20% despite team attrition.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="projects" class="mb-16">
+                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Project Deep Dive</h2>
+                <div class="space-y-10">
+                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 content-item" data-skills-used='["Python", "SQL", "Tableau", "Automation"]'>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Data Pipeline and Dashboard Modernization</h3>
+                        <p class="text-gray-600 mb-4">This project aimed to overhaul the data infrastructure for Asia Investment Operations to enable faster, more accurate regulatory reporting and empower senior leadership with real-time strategic insights.</p>
+                        <div class="chart-container">
+                            <canvas id="latencyChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-500 mt-2">Data Latency Reduction from 5 Days to Real-Time</p>
+                    </div>
+                </div>
+            </section>
 
+            <section id="credentials">
+                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Credentials</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Education</h3>
+                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                            <p class="font-bold">Nanyang Technological University</p>
+                            <p class="text-gray-700">Bachelor in Accountancy (Hons.)</p>
+                            <p class="text-sm text-gray-500">2014 - 2017</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Certifications</h3>
+                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-3">
+                            <p><span class="font-bold">Google Advanced Data Analytics</span> - Coursera, 2023</p>
+                            <p><span class="font-bold">Investment Foundations</span> - CFA Institute, 2023</p>
+                            <p><span class="font-bold">Certified Configurator</span> - Unqork, 2023</p>
+                            <p><span class="font-bold">Uipath Certified RPA Associate</span> - UiPath, 2022</p>
+                            <p><span class="font-bold">Alteryx Designer Advanced</span> - Alteryx, 2021</p>
+                            <p><span class="font-bold">Professional Diploma in Data Analytics</span> - NUS-ISS, 2021</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const sections = document.querySelectorAll('main section');
+        const navLinks = document.querySelectorAll('#navbar a');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        const skillFilter = document.getElementById('skill-filter');
+        const contentItems = document.querySelectorAll('.content-item');
+        let selectedSkill = null;
+
+        skillFilter.addEventListener('click', (e) => {
+            if (e.target.classList.contains('skill-tag')) {
+                const skill = e.target.dataset.skill;
+                
+                if(selectedSkill === skill) {
+                    selectedSkill = null;
+                    e.target.classList.remove('selected');
+                } else {
+                    skillFilter.querySelectorAll('.skill-tag').forEach(tag => tag.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                    selectedSkill = skill;
+                }
+                
+                contentItems.forEach(item => {
+                    if (selectedSkill) {
+                        const skillsUsed = JSON.parse(item.dataset.skillsUsed || '[]');
+                        if (skillsUsed.includes(selectedSkill)) {
+                            item.classList.remove('filtered-out');
+                        } else {
+                            item.classList.add('filtered-out');
+                        }
+                    } else {
+                        item.classList.remove('filtered-out');
+                    }
+                });
+            }
+        });
+
+        const latencyChartCtx = document.getElementById('latencyChart').getContext('2d');
+        new Chart(latencyChartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Wait time Before Automation', 'Wait time After Automation'],
+                datasets: [{
+                    label: 'Data Latency (in Business Days)',
+                    data: [5, 0.05],
+                    backgroundColor: ['#F9C74F', '#43AA8B'],
+                    borderColor: ['#F9C74F', '#43AA8B'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Business Days'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    if(context.dataIndex === 1) {
+                                        label += 'Real-time';
+                                    } else {
+                                        label += context.parsed.y + ' days';
+                                    }
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const fteChartCtx = document.getElementById('fteChart').getContext('2d');
+        new Chart(fteChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['FTE Capacity Generated', 'Remaining Team (Illustrative)'],
+                datasets: [{
+                    data: [2, 8],
+                    backgroundColor: ['#43AA8B', '#F4F1DE'],
+                    borderColor: ['#43AA8B', '#EAE7C6'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Automation Impact on Team Capacity'
+                    }
+                }
+            }
+        });
+
+    });
+</script>
 </body>
 </html>
