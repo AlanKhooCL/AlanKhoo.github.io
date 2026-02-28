@@ -1,376 +1,406 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Resume | Alan Khoo Chi Loon</title>
+    <title>East Asia Spring Escape</title>
+    
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Calm Harmony -->
-    <!-- Application Structure Plan: A single-page narrative SPA with fixed sidebar navigation. The structure progresses from a high-level summary (Intro, interactive dashboard) to detailed evidence (expandable career timeline, project case studies with charts), and concludes with credentials (education/certs). This user-centric flow is chosen over a static resume format to guide recruiters through a compelling story of skills and impact, making it easier to connect qualifications to job requirements through interactive filtering. -->
-    <!-- Visualization & Content Choices: 
-        - KPIs -> Goal: Inform -> Dynamic Stat Cards -> Interaction: Hover -> Justification: Quickly convey major achievements. (HTML/CSS).
-        - Skills List -> Goal: Organize/Relationships -> Interactive Skill Grid -> Interaction: Click to filter projects/experience -> Justification: Demonstrates the application of skills to specific outcomes. (JS).
-        - Career History -> Goal: Change -> Vertical Expandable Timeline -> Interaction: Click to reveal details -> Justification: More engaging and less overwhelming than a long text block. (JS).
-        - Project Impact (Pipeline Latency) -> Goal: Compare -> Bar Chart -> Interaction: Tooltip -> Justification: Visually dramatizes the "before and after" improvement. (Chart.js).
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F7F4;
-            color: #3D405B;
+        /* Hide scrollbar for the filter navigation */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .nav-link {
-            transition: all 0.3s ease;
-            color: #81849A;
-        }
-        .nav-link.active, .nav-link:hover {
-            color: #3D405B;
-            transform: translateX(5px);
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 1rem;
-            left: -1.35rem;
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: 9999px;
-            border: 3px solid #E07A5F;
-            background-color: #F8F7F4;
-            z-index: 10;
-        }
-        .timeline-line {
-            position: absolute;
-            top: 1rem;
-            left: -0.8rem;
-            width: 2px;
-            height: 100%;
-            background-color: #CBD5E1;
-        }
-        .skill-tag {
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-        }
-        .skill-tag.selected {
-            background-color: #E07A5F !important;
-            color: white !important;
-        }
-        .content-item {
-            transition: opacity 0.3s ease-in-out;
-        }
-        .content-item.filtered-out {
-            opacity: 0.3;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
-<body class="leading-relaxed">
+<body class="min-h-screen bg-slate-50 font-sans text-slate-800">
 
-    <div class="flex flex-col lg:flex-row">
-        <aside class="w-full lg:w-1/4 lg:h-screen lg:sticky lg:top-0 p-8 bg-white/50 backdrop-blur-sm border-r border-gray-200">
-            <div class="flex flex-col h-full">
-                <div class="text-center lg:text-left">
-                    <h1 class="text-3xl font-bold text-gray-800">Alan Khoo</h1>
-                    <p class="text-lg text-[#E07A5F]">Data Analyst</p>
-                </div>
-                <nav id="navbar" class="hidden lg:block my-12 space-y-4">
-                    <a href="#summary" class="nav-link block font-medium">Summary</a>
-                    <a href="#impact" class="nav-link block font-medium">Impact Dashboard</a>
-                    <a href="#journey" class="nav-link block font-medium">Career Journey</a>
-                    <a href="#projects" class="nav-link block font-medium">Project Deep Dive</a>
-                    <a href="#credentials" class="nav-link block font-medium">Credentials</a>
-                </nav>
-                <div class="mt-auto text-center lg:text-left pt-8">
-                    <p class="font-semibold text-gray-800 mb-2">Contact</p>
-                    <a href="mailto:alan.khoo.chi.loon@gmail.com" class="block text-sm text-gray-600 hover:text-[#E07A5F]">alan.khoo.chi.loon@gmail.com</a>
-                    <a href="https://www.linkedin.com/in/alankcl/" target="_blank" class="block text-sm text-gray-600 hover:text-[#E07A5F]">linkedin.com/in/alankcl</a>
-                    <p class="text-sm text-gray-600">+65 9642 1386</p>
-                </div>
+    <!-- HEADER SECTION -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-6">
+            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2" id="header-title"></h1>
+            <div class="flex flex-wrap items-center gap-4 text-sm text-slate-500 font-medium" id="header-meta">
+                <!-- Populated by JS -->
             </div>
-        </aside>
 
-        <main class="w-full lg:w-3/4 p-6 md:p-10 lg:p-16">
-            <section id="summary" class="mb-16">
-                 <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-[#E07A5F] pb-2">Professional Summary</h2>
-                <p class="text-lg text-gray-700">
-                    Data Specialist & Automation Lead with over 8 years of expertise in Private Banking and Assurance. Currently driving the digital roadmap for Investment Operations by overseeing a portfolio of low-code automation and AI initiatives. Expert in translating technical outputs into executive-level strategy, having previously enabled data-driven oversight for $200B+ in AUM and identified $5M in revenue recovery through high-impact management reviews.
-                </p>
-            </section>
+            <!-- FILTER NAVIGATION -->
+            <div class="flex overflow-x-auto gap-2 mt-6 pb-2 no-scrollbar" id="filter-nav">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </header>
 
-            <section id="impact" class="mb-16">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-[#E07A5F] pb-2">Impact Dashboard</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
-                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                        <h3 class="text-4xl font-bold text-[#3D405B]">2+</h3>
-                        <p class="text-gray-600 mt-2">Full-Time Headcounts Saved via Automation</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                        <h3 class="text-4xl font-bold text-[#3D405B]">$5M</h3>
-                        <p class="text-gray-600 mt-2">Revenue Recovery</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                        <h3 class="text-4xl font-bold text-[#3D405B]">$200B+</h3>
-                        <p class="text-gray-600 mt-2">Client AUM Analyzed for Management Insights</p>
-                    </div>
-                </div>
+    <!-- MAIN CONTENT -->
+    <main class="max-w-5xl mx-auto px-4 py-8" id="main-content">
+        <!-- Populated by JS -->
+    </main>
 
-                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Core Competencies</h3>
-                    <p class="mb-4 text-gray-600">This application is interactive. Click on a skill below to highlight the projects and experiences where it was applied. Click the skill again to clear the filter.</p>
-                    <div id="skill-filter" class="flex flex-wrap gap-3">
-                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Python">Python</span>
-                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="SQL">SQL</span>
-                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Tableau">Tableau</span>
-                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Automation">Automation</span>
-                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Alteryx">Alteryx</span>
-                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Unqork">Unqork</span>
-                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Stakeholder Engagement">Stakeholder Engagement</span>
-                        <span class="skill-tag bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-medium" data-skill="Process Improvement">Process Improvement</span>
-                    </div>
-                </div>
-            </section>
-
-            <section id="journey" class="mb-16">
-                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Career Journey</h2>
-                <div class="relative pl-4">
-                    <div class="timeline-line"></div>
-                    <div class="space-y-12">
-                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Python", "SQL", "Tableau", "Automation", "Stakeholder Engagement", "Process Improvement"]'>
-                            <p class="text-sm font-medium text-gray-500">2023 - Present</p>
-                            <h3 class="text-xl font-semibold text-gray-800">Vice President, Operations Automation Lead</h3>
-                            <p class="font-medium text-gray-700">J.P. Morgan Private Bank</p>
-                             <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
-                                <li>Business Intelligence & AUM Oversight: Standardize monthly metrics and centralized Tableau dashboards for stakeholders to provide real-time oversight for $200B+ in AUM, accelerating executive decision-making cycles across the Private Bank.</li>
-                                <li>Executive Strategy & Revenue Recovery: Orchestrate a cross-functional task force to engineer Quarterly Business Review (QBR) narratives for senior leadership; builds upon a proven track record of synthesizing complex data to identify $5M in unbilled fees and recover lost revenue.</li>
-                                <li>AI Adoption & Practical Integration: Represent Investment Operations as the lead for the cross-functional SOP Buddy pilot, driving internal tool adoption and alignment. Developed a library of reusable prompt assistants to enhance day-to-day functionalities.</li>
-                            </ul>
-                        </div>
-                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Automation", "Process Improvement"]'>
-                            <p class="text-sm font-medium text-gray-500">2020 - 2023</p>
-                            <h3 class="text-xl font-semibold text-gray-800">Process Improvement Associate</h3>
-                            <p class="font-medium text-gray-700">J.P. Morgan Private Bank</p>
-                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
-                                <li>Operational Efficiency & Capacity Generation: Architected the Lending Value Tool and fully automated the Margin Call report , streamlining hundreds of weekly advisor requests and enhancing the client experience to generate a total of 2 FTE in capacity.</li>
-                            </ul>
-                        </div>
-                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Stakeholder Engagement"]'>
-                            <p class="text-sm font-medium text-gray-500">2020</p>
-                            <h3 class="text-xl font-semibold text-gray-800">Assurance Services Audit Assistant</h3>
-                            <p class="font-medium text-gray-700">Ernst & Young LLP</p>
-                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
-                                <li>Strategic Audit Execution: Spearheaded end-to-end audit fieldwork for five healthcare institutions under Singapore’s Ministry of Health (MOH).</li>
-                            </ul>
-                        </div>
-                        <div class="timeline-item relative pl-8 content-item" data-skills-used='["Automation", "Stakeholder Engagement"]'>
-                            <p class="text-sm font-medium text-gray-500">2017 - 2020</p>
-                            <h3 class="text-xl font-semibold text-gray-800">Senior Assurance Associate</h3>
-                            <p class="font-medium text-gray-700">Foo Kon Tan LLP</p>
-                            <ul class="mt-2 list-disc list-inside text-gray-600 space-y-1">
-                                <li>Audit Leadership & Process Automation: Orchestrated end-to-end audits for a Singapore-listed entity and 19 subsidiaries to ensure timely financial reporting for 2018 and 2019 ; engineered Excel macros to automate GL reconciliations and trend analysis, reducing manual fieldwork by 20% despite team attrition.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="projects" class="mb-16">
-                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Project Deep Dive</h2>
-                <div class="space-y-10">
-                    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 content-item" data-skills-used='["Python", "SQL", "Tableau", "Automation"]'>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Data Pipeline and Dashboard Modernization</h3>
-                        <p class="text-gray-600 mb-4">This project aimed to overhaul the data infrastructure for Asia Investment Operations to enable faster, more accurate regulatory reporting and empower senior leadership with real-time strategic insights.</p>
-                        <div class="chart-container">
-                            <canvas id="latencyChart"></canvas>
-                        </div>
-                        <p class="text-center text-sm text-gray-500 mt-2">Data Latency Reduction from 5 Days to Real-Time</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="credentials">
-                <h2 class="text-2xl font-bold text-gray-800 mb-8 border-b-2 border-[#E07A5F] pb-2">Credentials</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Education</h3>
-                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                            <p class="font-bold">Nanyang Technological University</p>
-                            <p class="text-gray-700">Bachelor in Accountancy (Hons.)</p>
-                            <p class="text-sm text-gray-500">2014 - 2017</p>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Certifications</h3>
-                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 space-y-3">
-                            <p><span class="font-bold">Google Advanced Data Analytics</span> - Coursera, 2023</p>
-                            <p><span class="font-bold">Investment Foundations</span> - CFA Institute, 2023</p>
-                            <p><span class="font-bold">Certified Configurator</span> - Unqork, 2023</p>
-                            <p><span class="font-bold">Uipath Certified RPA Associate</span> - UiPath, 2022</p>
-                            <p><span class="font-bold">Alteryx Designer Advanced</span> - Alteryx, 2021</p>
-                            <p><span class="font-bold">Professional Diploma in Data Analytics</span> - NUS-ISS, 2021</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-        const sections = document.querySelectorAll('main section');
-        const navLinks = document.querySelectorAll('#navbar a');
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.3
+    <script>
+        // --- DATA ---
+        const tripData = {
+            overview: {
+                title: "East Asia Spring Escape",
+                dates: "April 14 - April 24, 2026",
+                totalBudget: "$1,414 SGD (Base Flights + Accomm)",
+            },
+            budget: [
+                { item: "Flights (SG ⇄ JP/KR + Inter-city)", cost: "$1,098", icon: "plane-takeoff" },
+                { item: "Tokyo: Dai-ichi Hotel (4 Nights)", cost: "$786", icon: "bed-double" },
+                { item: "Jeju: Airbnb (3 Nights)", cost: "$321", icon: "palmtree" },
+                { item: "Seoul: L7 Myeongdong (2 Nights)", cost: "$307", icon: "bed-double" },
+            ],
+            locations: [
+                { id: 'tokyo', name: 'Tokyo', color: 'pink', image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1000&q=80' },
+                { id: 'jeju', name: 'Jeju Island', color: 'orange', image: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=1000&q=80' },
+                { id: 'seoul', name: 'Seoul', color: 'purple', image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=1000&q=80' }
+            ],
+            itinerary: [
+                // TOKYO
+                {
+                    day: 1, date: "Apr 14 (Tue)", location: "tokyo", title: "Arrival in Japan",
+                    events: [
+                        { time: "1:55 PM", desc: "Depart Singapore", icon: "plane-takeoff" },
+                        { time: "9:55 PM", desc: "Arrive at Tokyo Haneda Airport", icon: "plane-landing" },
+                        { time: "11:00 PM", desc: "Check-in: Dai-ichi Hotel Tokyo (Shimbashi)", icon: "bed-double" }
+                    ]
+                },
+                {
+                    day: 2, date: "Apr 15 (Wed)", location: "tokyo", title: "Shibuya & City Vibes",
+                    events: [
+                        { time: "11:00 AM", desc: "Coffee Omakase @ Koffee Mameya Kakeru", icon: "coffee" },
+                        { time: "1:00 PM", desc: "Lunch: Sushi Ginza Onodera or Hamburg & Omurice", icon: "utensils" },
+                        { time: "2:00 PM", desc: "Shopping @ Shibuya109 (WEGO, GU) & Marion Crepes", icon: "shopping-bag" }
+                    ]
+                },
+                {
+                    day: 3, date: "Apr 16 (Thu)", location: "tokyo", title: "Kamakura Coastal Day Trip",
+                    events: [
+                        { time: "9:00 AM", desc: "Tsurugaoka Hachimangu Shrine & Komachi Street", icon: "map-pin" },
+                        { time: "12:00 PM", desc: "Great Buddha at Kotoku-in & Hasedera Temple", icon: "camera" },
+                        { time: "2:00 PM", desc: "Late Lunch @ Bills Cafe Shichirigahama", icon: "utensils" },
+                        { time: "4:00 PM", desc: "Shichirigahama Beach (Fuji views) & Koshigoe Park", icon: "sunset" }
+                    ]
+                },
+                {
+                    day: 4, date: "Apr 17 (Fri)", location: "tokyo", title: "Kawagoe & Thrifting",
+                    events: [
+                        { time: "10:30 AM", desc: "Hikawa Shrine & Kurazukuri Street", icon: "camera" },
+                        { time: "1:30 PM", desc: "Wood Works Kawagoe (Chopsticks) & Kashiya Yokocho", icon: "shopping-bag" },
+                        { time: "5:00 PM", desc: "Thrift Shopping @ Bookoff Super Bazaar (Saitama)", icon: "shopping-bag" },
+                        { time: "8:00 PM", desc: "Dinner: Miroku Yaesu (Offal BBQ)", icon: "utensils" }
+                    ]
+                },
+                {
+                    day: 5, date: "Apr 18 (Sat)", location: "tokyo", title: "Akihabara & Eats",
+                    events: [
+                        { time: "12:00 PM", desc: "Lunch: Ginza Hachigou (Need Reservation)", icon: "utensils" },
+                        { time: "1:30 PM", desc: "Cakes at Aigre Douce", icon: "coffee" },
+                        { time: "3:30 PM", desc: "Anime/Hobby Shopping in Akihabara", icon: "shopping-bag" },
+                        { time: "6:00 PM", desc: "Dinner @ Gyukatsu Ichi Ni San", icon: "utensils" }
+                    ]
+                },
+                // JEJU
+                {
+                    day: 6, date: "Apr 19 (Sun)", location: "jeju", title: "Transit to Jeju",
+                    events: [
+                        { time: "11:00 AM", desc: "Check out of Tokyo Hotel", icon: "bed-double" },
+                        { time: "4:35 PM", desc: "Flight from Narita to Jeju", icon: "plane-takeoff" },
+                        { time: "8:30 PM", desc: "Arrive in Jeju & Transfer to Airbnb", icon: "plane-landing" }
+                    ]
+                },
+                {
+                    day: 7, date: "Apr 20 (Mon)", location: "jeju", title: "East Jeju Exploring",
+                    events: [
+                        { time: "10:00 AM", desc: "Breakfast @ Mou Moon Cafe (Woljeongri)", icon: "coffee" },
+                        { time: "11:15 AM", desc: "Lunch @ Myeongjin Abalone", icon: "utensils" },
+                        { time: "12:30 PM", desc: "Hike Seongsan Ilchulbong & Haenyeo Show", icon: "camera" },
+                        { time: "5:30 PM", desc: "Dinner: Black Pork KBBQ @ 숙성도", icon: "utensils" }
+                    ]
+                },
+                {
+                    day: 8, date: "Apr 21 (Tue)", location: "jeju", title: "South/West Jeju Wonders",
+                    events: [
+                        { time: "10:30 AM", desc: "Gamttanam Cafe (Tangerine Themed)", icon: "coffee" },
+                        { time: "12:00 PM", desc: "Jusangjeollidae Cliff & Sashimi Lunch", icon: "camera" },
+                        { time: "1:15 PM", desc: "Cheonjeyeon Waterfall Hike", icon: "map-pin" },
+                        { time: "2:30 PM", desc: "Osulloc Tea Museum", icon: "coffee" }
+                    ]
+                },
+                // SEOUL
+                {
+                    day: 9, date: "Apr 22 (Wed)", location: "seoul", title: "Hello Seoul!",
+                    events: [
+                        { time: "12:00 PM", desc: "Flight from Jeju to Gimpo", icon: "plane-takeoff" },
+                        { time: "3:00 PM", desc: "Check-in: L7 Myeongdong", icon: "bed-double" },
+                        { time: "5:00 PM", desc: "Robin Hood Archery Cafe", icon: "map-pin" },
+                        { time: "6:30 PM", desc: "Hangang Ramyeon @ Yeouinaru", icon: "utensils" }
+                    ]
+                },
+                {
+                    day: 10, date: "Apr 23 (Thu)", location: "seoul", title: "Markets & Nightlife",
+                    events: [
+                        { time: "10:00 AM", desc: "Coffee @ Kamer", icon: "coffee" },
+                        { time: "12:00 PM", desc: "Tongin Market & Bukchon Adidas Outlet", icon: "shopping-bag" },
+                        { time: "5:00 PM", desc: "Drinks @ Jongno 3-ga Pocha Street", icon: "utensils" },
+                        { time: "7:00 PM", desc: "Lotte Mart Grocery Shopping", icon: "shopping-bag" }
+                    ]
+                },
+                {
+                    day: 11, date: "Apr 24 (Fri)", location: "seoul", title: "Departure",
+                    events: [
+                        { time: "10:00 AM", desc: "15-Step Scalp Treatment & Haircut", icon: "check-circle-2" },
+                        { time: "12:00 PM", desc: "Head to Incheon Airport", icon: "train" },
+                        { time: "4:00 PM", desc: "Flight Home to Singapore", icon: "plane-takeoff" }
+                    ]
+                }
+            ]
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${id}`) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
+        // Static classes mapping for Tailwind (required since we generate classes dynamically via JS)
+        const themeStyles = {
+            pink: {
+                btnActive: "bg-pink-500 text-white shadow-md",
+                iconActive: "text-white",
+                iconInactive: "text-pink-500",
+                badge: "bg-pink-100 text-pink-700 border-pink-200",
+                headerGrad: "from-pink-50",
+                textMain: "text-pink-600",
+                timelineIconNode: "border-pink-400 text-pink-500"
+            },
+            orange: {
+                btnActive: "bg-orange-500 text-white shadow-md",
+                iconActive: "text-white",
+                iconInactive: "text-orange-500",
+                badge: "bg-orange-100 text-orange-700 border-orange-200",
+                headerGrad: "from-orange-50",
+                textMain: "text-orange-600",
+                timelineIconNode: "border-orange-400 text-orange-500"
+            },
+            purple: {
+                btnActive: "bg-purple-500 text-white shadow-md",
+                iconActive: "text-white",
+                iconInactive: "text-purple-500",
+                badge: "bg-purple-100 text-purple-700 border-purple-200",
+                headerGrad: "from-purple-50",
+                textMain: "text-purple-600",
+                timelineIconNode: "border-purple-400 text-purple-500"
+            }
+        };
+
+        // --- STATE ---
+        let activeFilter = 'all';
+
+        // --- INIT ---
+        function initApp() {
+            // Set static header data
+            document.getElementById('header-title').innerText = tripData.overview.title;
+            document.getElementById('header-meta').innerHTML = `
+                <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i> ${tripData.overview.dates}</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="credit-card" class="w-4 h-4"></i> ${tripData.overview.totalBudget}</span>
+            `;
+            
+            renderApp();
+        }
+
+        function setFilter(filterId) {
+            activeFilter = filterId;
+            renderApp();
+        }
+
+        // --- RENDER LOGIC ---
+        function renderApp() {
+            renderFilters();
+            
+            let mainHtml = '';
+            
+            // Render Budget Overview only if "all" is selected
+            if (activeFilter === 'all') {
+                mainHtml += renderBudget();
+            } else {
+                mainHtml += renderHero();
+            }
+
+            // Render Itinerary Timeline
+            mainHtml += renderTimeline();
+
+            document.getElementById('main-content').innerHTML = mainHtml;
+            
+            // Re-initialize Lucide icons for dynamically added HTML
+            lucide.createIcons();
+        }
+
+        function renderFilters() {
+            const navContainer = document.getElementById('filter-nav');
+            
+            // All Button
+            let html = `
+                <button 
+                    onclick="setFilter('all')"
+                    class="px-4 py-2 rounded-full text-sm font-bold transition-colors whitespace-nowrap ${
+                        activeFilter === 'all' ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }"
+                >
+                    Full Itinerary
+                </button>
+            `;
+
+            // Location Buttons
+            tripData.locations.forEach(loc => {
+                const isActive = activeFilter === loc.id;
+                const theme = themeStyles[loc.color];
+                
+                const btnClass = isActive 
+                    ? theme.btnActive 
+                    : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50';
+                
+                const iconClass = isActive ? theme.iconActive : theme.iconInactive;
+
+                html += `
+                    <button 
+                        onclick="setFilter('${loc.id}')"
+                        class="px-4 py-2 rounded-full text-sm font-bold transition-colors whitespace-nowrap flex items-center gap-2 ${btnClass}"
+                    >
+                        <i data-lucide="map-pin" class="w-4 h-4 ${iconClass}"></i>
+                        ${loc.name}
+                    </button>
+                `;
             });
-        }, observerOptions);
 
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+            navContainer.innerHTML = html;
+        }
 
-        const skillFilter = document.getElementById('skill-filter');
-        const contentItems = document.querySelectorAll('.content-item');
-        let selectedSkill = null;
+        function renderBudget() {
+            let html = `
+                <section class="mb-12">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i data-lucide="credit-card" class="text-slate-400 w-6 h-6"></i> Base Estimates
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            `;
 
-        skillFilter.addEventListener('click', (e) => {
-            if (e.target.classList.contains('skill-tag')) {
-                const skill = e.target.dataset.skill;
-                
-                if(selectedSkill === skill) {
-                    selectedSkill = null;
-                    e.target.classList.remove('selected');
-                } else {
-                    skillFilter.querySelectorAll('.skill-tag').forEach(tag => tag.classList.remove('selected'));
-                    e.target.classList.add('selected');
-                    selectedSkill = skill;
-                }
-                
-                contentItems.forEach(item => {
-                    if (selectedSkill) {
-                        const skillsUsed = JSON.parse(item.dataset.skillsUsed || '[]');
-                        if (skillsUsed.includes(selectedSkill)) {
-                            item.classList.remove('filtered-out');
-                        } else {
-                            item.classList.add('filtered-out');
-                        }
-                    } else {
-                        item.classList.remove('filtered-out');
-                    }
+            tripData.budget.forEach(item => {
+                html += `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-4">
+                        <div class="bg-slate-100 p-2.5 rounded-xl text-slate-600">
+                            <i data-lucide="${item.icon}" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-medium mb-1">${item.item}</p>
+                            <p class="font-bold text-slate-900">${item.cost}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </section>
+            `;
+            return html;
+        }
+
+        function renderHero() {
+            const activeLocation = tripData.locations.find(l => l.id === activeFilter);
+            if (!activeLocation) return '';
+
+            return `
+                <div class="w-full h-64 md:h-80 rounded-3xl overflow-hidden mb-8 relative shadow-lg">
+                    <img 
+                        src="${activeLocation.image}" 
+                        alt="${activeLocation.name}"
+                        class="w-full h-full object-cover"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+                        <h2 class="text-4xl font-extrabold text-white">
+                            ${activeLocation.name}
+                        </h2>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTimeline() {
+            const filteredItinerary = tripData.itinerary.filter(
+                day => activeFilter === 'all' || day.location === activeFilter
+            );
+
+            if (filteredItinerary.length === 0) {
+                return `
+                    <div class="text-center py-20">
+                        <p class="text-slate-500">No events found for this filter.</p>
+                    </div>
+                `;
+            }
+
+            let html = '<div class="space-y-8">';
+
+            filteredItinerary.forEach(day => {
+                const locInfo = tripData.locations.find(l => l.id === day.location);
+                const theme = themeStyles[locInfo.color];
+
+                html += `
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <!-- Day Header -->
+                        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r ${theme.headerGrad} to-white">
+                            <div>
+                                <p class="text-sm font-bold ${theme.textMain} mb-1 flex items-center gap-2">
+                                    DAY ${day.day} <span class="text-slate-300">•</span> ${day.date}
+                                </p>
+                                <h3 class="text-xl font-extrabold text-slate-900">${day.title}</h3>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold border ${theme.badge}">
+                                ${locInfo.name}
+                            </span>
+                        </div>
+
+                        <!-- Events -->
+                        <div class="p-6">
+                            <div class="relative border-l-2 border-slate-100 ml-3 space-y-8">
+                `;
+
+                day.events.forEach(event => {
+                    html += `
+                        <div class="relative pl-8">
+                            <!-- Timeline Node -->
+                            <div class="absolute -left-[17px] top-1 bg-white border-2 w-8 h-8 rounded-full flex items-center justify-center shadow-sm ${theme.timelineIconNode}">
+                                <i data-lucide="${event.icon}" class="w-3.5 h-3.5"></i>
+                            </div>
+                            
+                            <!-- Event Content -->
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                <span class="text-sm font-bold text-slate-400 min-w-[80px] flex items-center gap-1.5">
+                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> ${event.time}
+                                </span>
+                                <span class="text-slate-800 font-medium text-lg leading-tight">
+                                    ${event.desc}
+                                </span>
+                            </div>
+                        </div>
+                    `;
                 });
-            }
-        });
 
-        const latencyChartCtx = document.getElementById('latencyChart').getContext('2d');
-        new Chart(latencyChartCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Wait time Before Automation', 'Wait time After Automation'],
-                datasets: [{
-                    label: 'Data Latency (in Business Days)',
-                    data: [5, 0.05],
-                    backgroundColor: ['#F9C74F', '#43AA8B'],
-                    borderColor: ['#F9C74F', '#43AA8B'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Business Days'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                if (context.parsed.y !== null) {
-                                    if(context.dataIndex === 1) {
-                                        label += 'Real-time';
-                                    } else {
-                                        label += context.parsed.y + ' days';
-                                    }
-                                }
-                                return label;
-                            }
-                        }
-                    }
-                }
-            }
-        });
+                html += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
 
-        const fteChartCtx = document.getElementById('fteChart').getContext('2d');
-        new Chart(fteChartCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['FTE Capacity Generated', 'Remaining Team (Illustrative)'],
-                datasets: [{
-                    data: [2, 8],
-                    backgroundColor: ['#43AA8B', '#F4F1DE'],
-                    borderColor: ['#43AA8B', '#EAE7C6'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { 
-                        position: 'bottom',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Automation Impact on Team Capacity'
-                    }
-                }
-            }
-        });
+            html += '</div>';
+            return html;
+        }
 
-    });
-</script>
+        // Start the application
+        initApp();
+    </script>
 </body>
 </html>
