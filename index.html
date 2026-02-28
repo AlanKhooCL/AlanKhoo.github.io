@@ -20,9 +20,33 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* Cherry Blossom Effects */
+        @keyframes fall {
+            0% { 
+                transform: translate3d(0, -10vh, 0) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { 
+                transform: translate3d(20vw, 110vh, 0) rotate(360deg); 
+                opacity: 0;
+            }
+        }
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
+            border-radius: 15px 0px 15px 0px;
+            box-shadow: 0 0 4px rgba(255, 182, 193, 0.6);
+            animation: fall linear infinite;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-slate-50 font-sans text-slate-800">
+
+    <!-- CHERRY BLOSSOM CONTAINER -->
+    <div id="blossom-container" class="fixed inset-0 pointer-events-none overflow-hidden z-50"></div>
 
     <!-- HEADER SECTION -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
@@ -50,11 +74,11 @@
             overview: {
                 title: "East Asia Spring Escape",
                 dates: "April 14 - April 24, 2026",
-                totalBudget: "$1,683 SGD (Base Flights + Accomm)",
+                totalBudget: "$2,781 SGD (Base Flights + Accomm)",
             },
             budget: [
                 { item: "Flights (SG ⇄ JP/KR + Inter-city)", cost: "$1,098", icon: "plane-takeoff" },
-                { item: "Tokyo: Dai-ichi Hotel (4 Nights)", cost: "$1,055", icon: "bed-double" },
+                { item: "Tokyo: Dai-ichi Hotel (5 Nights)", cost: "$1,055", icon: "bed-double" },
                 { item: "Jeju: Airbnb (3 Nights)", cost: "$321", icon: "palmtree" },
                 { item: "Seoul: L7 Myeongdong (2 Nights)", cost: "$307", icon: "bed-double" },
             ],
@@ -74,22 +98,26 @@
                     ]
                 },
                 {
-                    day: 2, date: "Apr 15 (Wed)", location: "tokyo", title: "Coffee, Akihabara & Sumo",
+                    day: 2, date: "Apr 15 (Wed)", location: "tokyo", title: "Coffee, Akihabara & Ginza",
                     events: [
                         { time: "11:00 AM", desc: "Coffee Omakase @ Koffee Mameya Kakeru", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Koffee+Mameya+Kakeru+Tokyo" },
                         { time: "1:00 PM", desc: "Lunch @ Gyukatsu Ichi Ni San", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Gyukatsu+Ichi+Ni+San+Akihabara" },
                         { 
                             time: "2:30 PM", 
-                            desc: "Explore Akihabara", 
+                            desc: "Explore Akihabara & Crafts", 
                             icon: "shopping-bag", 
                             link: "https://www.google.com/maps/search/?api=1&query=Akihabara+Tokyo",
                             subLinks: [
                                 { name: "Trader (Retro Games/Anime)", link: "https://www.google.com/maps/search/?api=1&query=Trader+Akihabara" },
+                                { name: "Lashinbang Radio Kaikan", link: "https://www.google.com/maps/search/?api=1&query=Lashinbang+Radio+Kaikan+Akihabara" },
                                 { name: "AmiAmi (Figures)", link: "https://www.google.com/maps/search/?api=1&query=AmiAmi+Akihabara" },
-                                { name: "Maidreamin (Maid Cafe)", link: "https://www.google.com/maps/search/?api=1&query=Maidreamin+Akihabara" }
+                                { name: "GU AKIBA TOLIM", link: "https://www.google.com/maps/search/?api=1&query=GU+Akihabara+Tolim" },
+                                { name: "Club Marion Yodobashi Akiba", link: "https://www.google.com/maps/search/?api=1&query=Club+Marion+Yodobashi+Akiba" },
+                                { name: "Maidreamin (Maid Cafe)", link: "https://www.google.com/maps/search/?api=1&query=Maidreamin+Akihabara" },
+                                { name: "Daruma Doll Painting", link: "https://www.google.com/maps/search/?api=1&query=Daruma+Doll+Painting+Tokyo" }
                             ]
                         },
-                        { time: "6:30 PM", desc: "Dinner & Show @ Asakusa Sumo Stable", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Asakusa+Sumo+Stable" }
+                        { time: "7:00 PM", desc: "Dinner @ Ginza", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Ginza+Tokyo+Restaurants" }
                     ]
                 },
                 {
@@ -111,12 +139,13 @@
                     ]
                 },
                 {
-                    day: 5, date: "Apr 18 (Sat)", location: "tokyo", title: "Ginza Eats & Dog Cafes",
+                    day: 5, date: "Apr 18 (Sat)", location: "tokyo", title: "Ginza Eats, Dog Cafes & Sumo",
                     events: [
                         { time: "12:00 PM", desc: "Lunch: Ginza Hachigou (Need Reservation)", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Ginza+Hachigou" },
-                        { time: "1:30 PM", desc: "Cakes at Aigre Douce", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Aigre+Douce+Tokyo" },
+                        { time: "1:30 PM", desc: "Desserts (Benizuru Pancakes / Aigre Douce Cakes)", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Aigre+Douce+Tokyo" },
                         { time: "3:00 PM", desc: "Dog Cafe (RIO Puppy Cafe / Ginza Cottage)", icon: "map-pin", link: "https://www.google.com/maps/search/?api=1&query=RIO+Puppy+Cafe+Tokyo" },
-                        { time: "5:00 PM", desc: "Souvenir Shopping (Shizuka Natural Sweets)", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Shizuka+Natural+Sweets+Ginza" }
+                        { time: "5:00 PM", desc: "Souvenir Shopping (Shizuka Natural Sweets)", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Shizuka+Natural+Sweets+Ginza" },
+                        { time: "6:30 PM", desc: "Dinner & Show @ Asakusa Sumo Stable", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Asakusa+Sumo+Stable" }
                     ]
                 },
                 // JEJU
@@ -125,7 +154,8 @@
                     events: [
                         { time: "12:00 PM", desc: "Check out of Tokyo Hotel", icon: "bed-double" },
                         { time: "4:35 PM", desc: "Flight from Narita to Jeju", icon: "plane-takeoff" },
-                        { time: "8:00 PM", desc: "Arrive in Jeju & Transfer to Airbnb", icon: "plane-landing", link: "https://www.airbnb.com.sg/rooms/779590289564955543" }
+                        { time: "8:00 PM", desc: "Arrive in Jeju & Airport Dabao / KBBQ Dinner", icon: "utensils" },
+                        { time: "9:00 PM", desc: "Transfer to Airbnb (Monterrey)", icon: "bed-double", link: "https://www.airbnb.com.sg/rooms/779590289564955543" }
                     ]
                 },
                 {
@@ -140,11 +170,13 @@
                 {
                     day: 8, date: "Apr 21 (Tue)", location: "jeju", title: "South/West Jeju Wonders",
                     events: [
-                        { time: "10:30 AM", desc: "Gamttanam Cafe (Tangerine Themed)", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Gamttanam+Cafe+Jeju" },
+                        { time: "10:00 AM", desc: "Gyulkkot Darak or Gamttanam Cafe (Tangerine Themed)", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Gamttanam+Cafe+Jeju" },
                         { time: "11:30 AM", desc: "Jusangjeollidae Cliff (Seaside)", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Jusangjeollidae+Cliff+Jeju" },
-                        { time: "12:15 PM", desc: "Lunch @ nearby 횟집 (Sashimi)", icon: "utensils" },
+                        { time: "12:00 PM", desc: "Lunch @ nearby 횟집 (Sashimi)", icon: "utensils" },
                         { time: "1:15 PM", desc: "Cheonjeyeon Waterfall Hike", icon: "map-pin", link: "https://www.google.com/maps/search/?api=1&query=Cheonjeyeon+Waterfall+Jeju" },
-                        { time: "2:30 PM", desc: "Osulloc Tea Museum", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Osulloc+Tea+Museum+Jeju" }
+                        { time: "2:30 PM", desc: "Osulloc Tea Museum", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Osulloc+Tea+Museum+Jeju" },
+                        { time: "5:00 PM", desc: "Saebyeol Friends Animal Farm", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Saebyeol+Friends+Jeju" },
+                        { time: "7:00 PM", desc: "Dinner & Check in @ StayMaritime", icon: "bed-double", link: "https://www.airbnb.com.sg/rooms/1092988913079421270" }
                     ]
                 },
                 // SEOUL
@@ -161,7 +193,7 @@
                     day: 10, date: "Apr 23 (Thu)", location: "seoul", title: "Markets & Nightlife",
                     events: [
                         { time: "10:00 AM", desc: "Coffee @ Kamer", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Kamer+Coffee+Seoul" },
-                        { time: "12:00 PM", desc: "Tongin Market & Bukchon Adidas Outlet", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Tongin+Market+Seoul" },
+                        { time: "12:00 PM", desc: "Tongin Market, Bukchon Adidas Outlet & Salt Bread", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Tongin+Market+Seoul" },
                         { time: "5:00 PM", desc: "Drinks @ Jongno 3-ga Pocha Street", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Jongno+3-ga+Pocha+Street+Seoul" },
                         { time: "7:00 PM", desc: "Lotte Mart Grocery Shopping", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Lotte+Mart+Seoul" }
                     ]
@@ -220,7 +252,33 @@
                 <span class="flex items-center gap-1.5"><i data-lucide="credit-card" class="w-4 h-4"></i> ${tripData.overview.totalBudget}</span>
             `;
             
+            createBlossoms();
             renderApp();
+        }
+
+        // --- BLOSSOM EFFECT ---
+        function createBlossoms() {
+            const container = document.getElementById('blossom-container');
+            const petalCount = 40; // Adjust for more/less density
+            
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Randomize properties for natural look
+                const size = Math.random() * 8 + 6; // 6px to 14px
+                const startLeft = Math.random() * 120 - 10; // Spread across the width
+                const duration = Math.random() * 8 + 6; // 6s to 14s fall time
+                const delay = Math.random() * 10; // Staggered start times
+                
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                petal.style.left = `${startLeft}vw`;
+                petal.style.animationDuration = `${duration}s`;
+                petal.style.animationDelay = `-${delay}s`; // Negative delay starts them immediately
+                
+                container.appendChild(petal);
+            }
         }
 
         function setFilter(filterId) {
