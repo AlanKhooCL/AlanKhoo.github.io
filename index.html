@@ -74,13 +74,13 @@
             overview: {
                 title: "East Asia Spring Escape",
                 dates: "April 14 - April 24, 2026",
-                totalBudget: "$2,781 SGD (Base Flights + Accomm)",
+                totalBudget: "$2,755 SGD (Base Flights + Accomm)",
             },
             budget: [
                 { item: "Flights (SG ⇄ JP/KR + Inter-city)", cost: "$1,098", icon: "plane-takeoff" },
                 { item: "Tokyo: Dai-ichi Hotel (5 Nights)", cost: "$1,055", icon: "bed-double" },
                 { item: "Jeju: Airbnb (3 Nights)", cost: "$321", icon: "palmtree" },
-                { item: "Seoul: L7 Myeongdong (2 Nights)", cost: "$307", icon: "bed-double" },
+                { item: "Seoul: Mercure Hongdae (2 Nights)", cost: "$281", icon: "bed-double" },
             ],
             locations: [
                 { id: 'tokyo', name: 'Tokyo', color: 'pink', image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1000&q=80' },
@@ -104,7 +104,7 @@
                         { time: "1:00 PM", desc: "Lunch @ Gyukatsu Ichi Ni San", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Gyukatsu+Ichi+Ni+San+Akihabara" },
                         { 
                             time: "2:30 PM", 
-                            desc: "Explore Akihabara & Crafts", 
+                            desc: "Explore Akihabara", 
                             icon: "shopping-bag", 
                             link: "https://www.google.com/maps/search/?api=1&query=Akihabara+Tokyo",
                             subLinks: [
@@ -113,11 +113,12 @@
                                 { name: "AmiAmi (Figures)", link: "https://www.google.com/maps/search/?api=1&query=AmiAmi+Akihabara" },
                                 { name: "GU AKIBA TOLIM", link: "https://www.google.com/maps/search/?api=1&query=GU+Akihabara+Tolim" },
                                 { name: "Club Marion Yodobashi Akiba", link: "https://www.google.com/maps/search/?api=1&query=Club+Marion+Yodobashi+Akiba" },
-                                { name: "Maidreamin (Maid Cafe)", link: "https://www.google.com/maps/search/?api=1&query=Maidreamin+Akihabara" },
-                                { name: "Daruma Doll Painting", link: "https://www.google.com/maps/search/?api=1&query=Daruma+Doll+Painting+Tokyo" }
+                                { name: "Maidreamin (Maid Cafe)", link: "https://www.google.com/maps/search/?api=1&query=Maidreamin+Akihabara" }
                             ]
                         },
-                        { time: "7:00 PM", desc: "Dinner @ Ginza", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Ginza+Tokyo+Restaurants" }
+                        { time: "5:30 PM", desc: "Daruma Doll Painting", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Daruma+Doll+Painting+Tokyo" },
+                        { time: "7:00 PM", desc: "Dinner @ Ginza", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Ginza+Tokyo+Restaurants" },
+                        { time: "9:00 PM", desc: "Return to Hotel", icon: "bed-double" }
                     ]
                 },
                 {
@@ -139,13 +140,12 @@
                     ]
                 },
                 {
-                    day: 5, date: "Apr 18 (Sat)", location: "tokyo", title: "Ginza Eats, Dog Cafes & Sumo",
+                    day: 5, date: "Apr 18 (Sat)", location: "tokyo", title: "Ginza Eats & Onsen",
                     events: [
+                        { time: "10:00 AM", desc: "Dog Cafe (Ginza Cottage & M)", icon: "map-pin", link: "https://www.google.com/maps/search/?api=1&query=Ginza+Cottage+M+Tokyo" },
                         { time: "12:00 PM", desc: "Lunch: Ginza Hachigou (Need Reservation)", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Ginza+Hachigou" },
-                        { time: "1:30 PM", desc: "Desserts (Benizuru Pancakes / Aigre Douce Cakes)", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Aigre+Douce+Tokyo" },
-                        { time: "3:00 PM", desc: "Dog Cafe (RIO Puppy Cafe / Ginza Cottage)", icon: "map-pin", link: "https://www.google.com/maps/search/?api=1&query=RIO+Puppy+Cafe+Tokyo" },
-                        { time: "5:00 PM", desc: "Souvenir Shopping (Shizuka Natural Sweets)", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Shizuka+Natural+Sweets+Ginza" },
-                        { time: "6:30 PM", desc: "Dinner & Show @ Asakusa Sumo Stable", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Asakusa+Sumo+Stable" }
+                        { time: "1:30 PM", desc: "Desserts (Benizuru Pancakes / Aigre Douce / Shizuka Sweets)", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Aigre+Douce+Tokyo" },
+                        { time: "6:00 PM", desc: "Relax @ Spa LaQua / Toyosu Manyo Club Onsen (with buffet dinner)", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Toyosu+Manyo+Club+Onsen" }
                     ]
                 },
                 // JEJU
@@ -164,7 +164,7 @@
                         { time: "10:00 AM", desc: "Breakfast @ Mou Moon Cafe (Woljeongri)", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Mou+Moon+Cafe+Jeju" },
                         { time: "11:15 AM", desc: "Lunch @ Myeongjin Abalone", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Myeongjin+Abalone+Jeju" },
                         { time: "12:30 PM", desc: "Hike Seongsan Ilchulbong & Haenyeo Show", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Seongsan+Ilchulbong+Jeju" },
-                        { time: "5:30 PM", desc: "Dinner: Black Pork KBBQ @ 숙성도", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Suksungdo+Jeju" }
+                        { time: "5:30 PM", desc: "Dinner: Black Pork KBBQ @ 숙성도 (with Tangerine Makgeolli)", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Suksungdo+Jeju" }
                     ]
                 },
                 {
@@ -176,34 +176,51 @@
                         { time: "1:15 PM", desc: "Cheonjeyeon Waterfall Hike", icon: "map-pin", link: "https://www.google.com/maps/search/?api=1&query=Cheonjeyeon+Waterfall+Jeju" },
                         { time: "2:30 PM", desc: "Osulloc Tea Museum", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Osulloc+Tea+Museum+Jeju" },
                         { time: "5:00 PM", desc: "Saebyeol Friends Animal Farm", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Saebyeol+Friends+Jeju" },
-                        { time: "7:00 PM", desc: "Dinner & Check in @ StayMaritime", icon: "bed-double", link: "https://www.airbnb.com.sg/rooms/1092988913079421270" }
+                        { time: "6:00 PM", desc: "Dinner @ Sarang Sikdang", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Sarang+Sikdang+Jeju" },
+                        { time: "7:00 PM", desc: "Check in @ StayMaritime", icon: "bed-double", link: "https://www.airbnb.com.sg/rooms/1092988913079421270" }
                     ]
                 },
                 // SEOUL
                 {
-                    day: 9, date: "Apr 22 (Wed)", location: "seoul", title: "Hello Seoul!",
+                    day: 9, date: "Apr 22 (Wed)", location: "seoul", title: "Hongdae & Hangang",
                     events: [
                         { time: "12:00 PM", desc: "Flight from Jeju to Gimpo", icon: "plane-takeoff" },
-                        { time: "3:00 PM", desc: "Check-in: L7 Myeongdong", icon: "bed-double", link: "https://sg.trip.com/hotels/detail/?hotelId=992071" },
-                        { time: "5:00 PM", desc: "Robin Hood Archery Cafe", icon: "map-pin", link: "https://www.google.com/maps/search/?api=1&query=Robin+Hood+Archery+Cafe+Seoul" },
-                        { time: "6:30 PM", desc: "Hangang Ramyeon @ Yeouinaru", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Yeouinaru+Station+Hangang+Park" }
+                        { time: "3:30 PM", desc: "Check-in: Mercure Hongdae", icon: "bed-double", link: "https://www.google.com/maps/search/?api=1&query=Mercure+Ambassador+Seoul+Hongdae" },
+                        { time: "4:00 PM", desc: "Hangang Ramyeon @ Yeouinaru", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Yeouinaru+Station+Hangang+Park" },
+                        { time: "5:30 PM", desc: "Sinchon Robinhood Archery Cafe", icon: "map-pin", link: "https://www.google.com/maps/search/?api=1&query=Robin+Hood+Archery+Cafe+Sinchon" },
+                        { time: "7:00 PM", desc: "Dinner @ Sinchon/Hongdae & Olive Young", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Hongdae+Seoul" },
+                        { time: "10:00 PM", desc: "Return to Hotel", icon: "bed-double" }
                     ]
                 },
                 {
-                    day: 10, date: "Apr 23 (Thu)", location: "seoul", title: "Markets & Nightlife",
+                    day: 10, date: "Apr 23 (Thu)", location: "seoul", title: "Shopping, Cafes & Pocha",
                     events: [
-                        { time: "10:00 AM", desc: "Coffee @ Kamer", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Kamer+Coffee+Seoul" },
-                        { time: "12:00 PM", desc: "Tongin Market, Bukchon Adidas Outlet & Salt Bread", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Tongin+Market+Seoul" },
-                        { time: "5:00 PM", desc: "Drinks @ Jongno 3-ga Pocha Street", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Jongno+3-ga+Pocha+Street+Seoul" },
-                        { time: "7:00 PM", desc: "Lotte Mart Grocery Shopping", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Lotte+Mart+Seoul" }
+                        { time: "11:00 AM", desc: "WL: Lei Clinic", icon: "map-pin", link: "https://www.google.com/maps/search/?api=1&query=Lei+Clinic+Seoul" },
+                        { 
+                            time: "12:00 PM", 
+                            desc: "Explore Spots & Cafes", 
+                            icon: "coffee", 
+                            subLinks: [
+                                { name: "Apgujeong Cafe", link: "https://www.google.com/maps/search/?api=1&query=Apgujeong+Cafe+Seoul" },
+                                { name: "Maplestory AGIT", link: "https://www.google.com/maps/search/?api=1&query=Maplestory+AGIT+Seoul" },
+                                { name: "Seongsu Cafe", link: "https://www.google.com/maps/search/?api=1&query=Seongsu+Cafe+Seoul" }
+                            ]
+                        },
+                        { time: "1:00 PM", desc: "Lunch", icon: "utensils" },
+                        { time: "3:00 PM", desc: "Shopping @ Yongsan iPark Mall", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Yongsan+iPark+Mall+Seoul" },
+                        { time: "5:00 PM", desc: "Dinner/Drinks @ Jongno 3-ga Pocha Street", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Jongno+3-ga+Pocha+Street+Seoul" },
+                        { time: "7:00 PM", desc: "Lotte Mart Grocery Shopping", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Lotte+Mart+Seoul" },
+                        { time: "9:00 PM", desc: "Return to Hotel", icon: "bed-double" }
                     ]
                 },
                 {
                     day: 11, date: "Apr 24 (Fri)", location: "seoul", title: "Departure",
                     events: [
-                        { time: "10:00 AM", desc: "15-Step Scalp Treatment & Haircut (Lee Shop)", icon: "check-circle-2", link: "https://www.google.com/maps/search/?api=1&query=Lee+Shop+Seoul+Scalp" },
-                        { time: "12:00 PM", desc: "Head to Incheon Airport", icon: "train", link: "https://www.google.com/maps/search/?api=1&query=Incheon+Airport" },
-                        { time: "4:00 PM", desc: "Flight Home to Singapore", icon: "plane-takeoff" }
+                        { time: "10:00 AM", desc: "Haircut", icon: "check-circle-2" },
+                        { time: "10:30 AM", desc: "Hongdae/Yeonnam Cafe Hopping", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Yeonnam-dong+Cafes+Seoul" },
+                        { time: "12:00 PM", desc: "Lunch", icon: "utensils" },
+                        { time: "2:30 PM", desc: "Check in & Head to Incheon Airport", icon: "train", link: "https://www.google.com/maps/search/?api=1&query=Incheon+Airport" },
+                        { time: "4:45 PM", desc: "Flight Home to Singapore", icon: "plane-takeoff" }
                     ]
                 }
             ]
