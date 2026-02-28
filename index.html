@@ -50,12 +50,12 @@
             overview: {
                 title: "East Asia Spring Escape",
                 dates: "April 14 - April 24, 2026",
-                totalBudget: "$1,420 SGD (Base Flights + Accomm)",
+                totalBudget: "$1,683 SGD (Base Flights + Accomm)",
             },
             budget: [
                 { item: "Flights (SG ⇄ JP/KR + Inter-city)", cost: "$1,098", icon: "plane-takeoff" },
-                { item: "Tokyo: Dai-ichi Hotel (4 Nights)", cost: "$786", icon: "bed-double" },
-                { item: "Jeju: Airbnb (3 Nights)", cost: "$327", icon: "palmtree" },
+                { item: "Tokyo: Dai-ichi Hotel (4 Nights)", cost: "$1,055", icon: "bed-double" },
+                { item: "Jeju: Airbnb (3 Nights)", cost: "$321", icon: "palmtree" },
                 { item: "Seoul: L7 Myeongdong (2 Nights)", cost: "$307", icon: "bed-double" },
             ],
             locations: [
@@ -66,19 +66,20 @@
             itinerary: [
                 // TOKYO
                 {
-                    day: 1, date: "Apr 14 (Tue)", location: "tokyo", title: "Arrival in Japan & Shibuya",
+                    day: 1, date: "Apr 14 (Tue)", location: "tokyo", title: "Arrival in Japan",
                     events: [
-                        { time: "9:00 AM", desc: "Arrive at Tokyo Narita & Clear Immigration", icon: "plane-landing" },
-                        { time: "10:30 AM", desc: "Transfer to Dai-ichi Hotel Tokyo (Shimbashi)", icon: "bed-double" },
-                        { time: "11:30 AM", desc: "Lunch @ Hashigo Ginza (Duck/Chicken Ramen)", icon: "utensils" },
-                        { time: "2:00 PM", desc: "Coffee Omakase @ Koffee Mameya Kakeru", icon: "coffee" },
-                        { time: "3:45 PM", desc: "Shopping @ Shibuya109 (WEGO, GU) & Marion Crepes", icon: "shopping-bag" }
+                        { time: "1:55 PM", desc: "Depart Singapore", icon: "plane-takeoff" },
+                        { time: "9:55 PM", desc: "Arrive at Tokyo Haneda Airport", icon: "plane-landing" },
+                        { time: "11:00 PM", desc: "Check-in: Dai-ichi Hotel Tokyo (Shimbashi)", icon: "bed-double" }
                     ]
                 },
                 {
-                    day: 2, date: "Apr 15 (Wed)", location: "tokyo", title: "Tokyo City Vibes",
+                    day: 2, date: "Apr 15 (Wed)", location: "tokyo", title: "Coffee, Akihabara & Sumo",
                     events: [
-                        { time: "TBD", desc: "Open schedule (Shibuya activities were moved to Day 1!)", icon: "map-pin" }
+                        { time: "11:00 AM", desc: "Coffee Omakase @ Koffee Mameya Kakeru", icon: "coffee" },
+                        { time: "1:00 PM", desc: "Lunch @ Gyukatsu Ichi Ni San", icon: "utensils" },
+                        { time: "2:30 PM", desc: "Akihabara (Trader, AmiAmi, Maidreamin)", icon: "shopping-bag" },
+                        { time: "6:30 PM", desc: "Dinner & Show @ Asakusa Sumo Stable", icon: "camera" }
                     ]
                 },
                 {
@@ -100,21 +101,21 @@
                     ]
                 },
                 {
-                    day: 5, date: "Apr 18 (Sat)", location: "tokyo", title: "Akihabara & Eats",
+                    day: 5, date: "Apr 18 (Sat)", location: "tokyo", title: "Ginza Eats & Dog Cafes",
                     events: [
                         { time: "12:00 PM", desc: "Lunch: Ginza Hachigou (Need Reservation)", icon: "utensils" },
                         { time: "1:30 PM", desc: "Cakes at Aigre Douce", icon: "coffee" },
-                        { time: "3:30 PM", desc: "Anime/Hobby Shopping in Akihabara", icon: "shopping-bag" },
-                        { time: "6:00 PM", desc: "Dinner @ Gyukatsu Ichi Ni San", icon: "utensils" }
+                        { time: "3:00 PM", desc: "Dog Cafe (RIO Puppy Cafe / Ginza Cottage)", icon: "map-pin" },
+                        { time: "5:00 PM", desc: "Souvenir Shopping (Shizuka Natural Sweets)", icon: "shopping-bag" }
                     ]
                 },
                 // JEJU
                 {
                     day: 6, date: "Apr 19 (Sun)", location: "jeju", title: "Transit to Jeju",
                     events: [
-                        { time: "11:00 AM", desc: "Check out of Tokyo Hotel", icon: "bed-double" },
+                        { time: "12:00 PM", desc: "Check out of Tokyo Hotel", icon: "bed-double" },
                         { time: "4:35 PM", desc: "Flight from Narita to Jeju", icon: "plane-takeoff" },
-                        { time: "8:30 PM", desc: "Arrive in Jeju & Transfer to Airbnb", icon: "plane-landing" }
+                        { time: "8:00 PM", desc: "Arrive in Jeju & Transfer to Airbnb", icon: "plane-landing" }
                     ]
                 },
                 {
@@ -130,7 +131,8 @@
                     day: 8, date: "Apr 21 (Tue)", location: "jeju", title: "South/West Jeju Wonders",
                     events: [
                         { time: "10:30 AM", desc: "Gamttanam Cafe (Tangerine Themed)", icon: "coffee" },
-                        { time: "12:00 PM", desc: "Jusangjeollidae Cliff & Sashimi Lunch", icon: "camera" },
+                        { time: "11:30 AM", desc: "Jusangjeollidae Cliff (Seaside)", icon: "camera" },
+                        { time: "12:15 PM", desc: "Lunch @ nearby 횟집 (Sashimi)", icon: "utensils" },
                         { time: "1:15 PM", desc: "Cheonjeyeon Waterfall Hike", icon: "map-pin" },
                         { time: "2:30 PM", desc: "Osulloc Tea Museum", icon: "coffee" }
                     ]
@@ -157,7 +159,7 @@
                 {
                     day: 11, date: "Apr 24 (Fri)", location: "seoul", title: "Departure",
                     events: [
-                        { time: "10:00 AM", desc: "15-Step Scalp Treatment & Haircut", icon: "check-circle-2" },
+                        { time: "10:00 AM", desc: "15-Step Scalp Treatment & Haircut (Lee Shop)", icon: "check-circle-2" },
                         { time: "12:00 PM", desc: "Head to Incheon Airport", icon: "train" },
                         { time: "4:00 PM", desc: "Flight Home to Singapore", icon: "plane-takeoff" }
                     ]
