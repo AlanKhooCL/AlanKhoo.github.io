@@ -78,7 +78,17 @@
                     events: [
                         { time: "11:00 AM", desc: "Coffee Omakase @ Koffee Mameya Kakeru", icon: "coffee", link: "https://www.google.com/maps/search/?api=1&query=Koffee+Mameya+Kakeru+Tokyo" },
                         { time: "1:00 PM", desc: "Lunch @ Gyukatsu Ichi Ni San", icon: "utensils", link: "https://www.google.com/maps/search/?api=1&query=Gyukatsu+Ichi+Ni+San+Akihabara" },
-                        { time: "2:30 PM", desc: "Akihabara (Trader, AmiAmi, Maidreamin)", icon: "shopping-bag", link: "https://www.google.com/maps/search/?api=1&query=Akihabara+Tokyo" },
+                        { 
+                            time: "2:30 PM", 
+                            desc: "Explore Akihabara", 
+                            icon: "shopping-bag", 
+                            link: "https://www.google.com/maps/search/?api=1&query=Akihabara+Tokyo",
+                            subLinks: [
+                                { name: "Trader (Retro Games/Anime)", link: "https://www.google.com/maps/search/?api=1&query=Trader+Akihabara" },
+                                { name: "AmiAmi (Figures)", link: "https://www.google.com/maps/search/?api=1&query=AmiAmi+Akihabara" },
+                                { name: "Maidreamin (Maid Cafe)", link: "https://www.google.com/maps/search/?api=1&query=Maidreamin+Akihabara" }
+                            ]
+                        },
                         { time: "6:30 PM", desc: "Dinner & Show @ Asakusa Sumo Stable", icon: "camera", link: "https://www.google.com/maps/search/?api=1&query=Asakusa+Sumo+Stable" }
                     ]
                 },
@@ -378,16 +388,28 @@
                             </div>
                             
                             <!-- Event Content -->
-                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                                <span class="text-sm font-bold text-slate-400 min-w-[80px] flex items-center gap-1.5">
+                            <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
+                                <span class="text-sm font-bold text-slate-400 min-w-[80px] flex items-center gap-1.5 mt-1">
                                     <i data-lucide="clock" class="w-3.5 h-3.5"></i> ${event.time}
                                 </span>
-                                ${event.link 
-                                    ? `<a href="${event.link}" target="_blank" rel="noopener noreferrer" class="text-slate-800 font-medium text-lg leading-tight hover:text-blue-600 hover:underline transition-colors inline-flex items-center flex-wrap gap-1.5">
-                                        ${event.desc} <i data-lucide="external-link" class="w-4 h-4 text-slate-400"></i>
-                                       </a>`
-                                    : `<span class="text-slate-800 font-medium text-lg leading-tight">${event.desc}</span>`
-                                }
+                                <div class="flex flex-col">
+                                    ${event.link 
+                                        ? `<a href="${event.link}" target="_blank" rel="noopener noreferrer" class="text-slate-800 font-medium text-lg leading-tight hover:text-blue-600 hover:underline transition-colors inline-flex items-center flex-wrap gap-1.5">
+                                            ${event.desc} <i data-lucide="external-link" class="w-4 h-4 text-slate-400"></i>
+                                           </a>`
+                                        : `<span class="text-slate-800 font-medium text-lg leading-tight">${event.desc}</span>`
+                                    }
+                                    ${event.subLinks 
+                                        ? `<div class="flex flex-col gap-1.5 mt-2">
+                                            ${event.subLinks.map(sub => `
+                                                <a href="${sub.link}" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-slate-500 hover:text-blue-600 hover:underline flex items-center gap-1.5">
+                                                    <i data-lucide="corner-down-right" class="w-3.5 h-3.5 text-slate-400"></i> ${sub.name}
+                                                </a>
+                                            `).join('')}
+                                           </div>`
+                                        : ''
+                                    }
+                                </div>
                             </div>
                         </div>
                     `;
